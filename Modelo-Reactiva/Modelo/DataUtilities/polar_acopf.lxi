@@ -1,0 +1,47 @@
+B 2 C o m p i l a t i o n
+B 710 Include File Summary
+B 732 Equation Listing    SOLVE acopf Using NLP From line 653
+D 733 c_LinePij
+D 757 c_LinePji
+D 780 c_LineQij
+D 803 c_LineQji
+D 826 c_BalanceP
+D 842 c_BalanceQ
+D 858 c_InterfaceP
+D 864 c_InterfaceLimit
+D 869 c_anglediffIJ
+D 880 c_anglediffJI
+D 893 c_pw_cost
+D 898 c_obj
+B 935 Column Listing      SOLVE acopf Using NLP From line 653
+E 936 V_P
+E 956 V_Q
+E 972 V_Theta
+E 1027 V_LineP
+E 1046 V_LineQ
+E 1065 V_V
+E 1106 V_objcost
+B 1115 Model Statistics    SOLVE acopf Using NLP From line 653
+B 1133 Solution Report     SOLVE acopf Using NLP From line 653
+F 1156 c_LinePij
+F 1347 c_LinePji
+F 1538 c_LineQij
+F 1729 c_LineQji
+F 1920 c_BalanceP
+F 2043 c_BalanceQ
+F 2167 c_InterfaceP
+F 2172 c_InterfaceLimit
+F 2177 c_anglediffIJ
+F 2361 c_anglediffJI
+F 2545 c_pw_cost
+F 2548 c_obj
+G 2551 V_P
+G 2610 V_Q
+G 2669 V_Theta
+G 2792 V_LineP
+G 3169 V_LineQ
+G 3546 V_V
+G 3669 V_objcost
+B 3684 E x e c u t i o n
+I 3687 infeas
+I 3690 lines_at_limit

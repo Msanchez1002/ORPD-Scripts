@@ -1,0 +1,132 @@
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 03/18/21 10:13:02 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  *==== SECTION: Data (pre) declaration
+   2  sets
+   3  * New sets
+   4    conj /real,imag/
+   5    costcoefset "Placeholder set for quadratic function coefficients (0,1,2)
+      " /0*2/
+   6    costptset "Placeholder set for pwl function pieces" /1*40/
+   7   
+   8  * Based on %times% option. See LOADR t below for default option if %times%
+       not set
+  10  t,
+  11   
+  12  * Dataset sets
+  13    bus, gen, circuit,
+  14    interface, interfacemap (interface,bus,bus),
+  15    fuel_t, fuel_s, prime_mover,
+  16    bus_t, bus_s,
+  17    gen_t, gen_s,
+  18    branch_t, branch_s,
+  19   
+  20    interface_t,
+  21    line(bus,bus,circuit),
+  22    transformer(bus,bus,circuit),
+  23    monitored_lines(bus,bus,circuit)
+  24  ;
+  25   
+  26  *-- Aliases
+  27  alias(bus,i,j);
+  28  alias(circuit,c);
+  29  alias(t,t1);
+  30  alias (gen,gen1);
+  31   
+  32  parameters
+  33      version, baseMVA, total_cost,
+  34  * Domain info not stated because of how we iterate through data
+  35      businfo(bus,*,*),
+  36      geninfo(gen,*,*),
+  37      fuelinfo(*,*),
+  38      branchinfo(*,*,*,*,*),
+  39      interfaceinfo(*,*,*)
+  40  ;
+  41   
+  42  *-- Specially handled data (option specific)
+  44  sets
+  45    demandbid_t(*) / /
+  46    demandbid_s(*) / /
+  47    demandbid(*) / /
+  48    demandbidmap (*,*) / /
+  49  ;
+  50   
+  51  parameters
+  52    demandbidinfo(*,*,*,*) / /
+  53  ;
+  55   
+  56   
+  57  *==== SECTION: Data read-in from input file
+**** File: C:\Users\Jairo\Desktop\Modelo\DataUtilities\%case%.gdx
+**** Msg : No such file or directory
+  58  $GDXIN %case%
+****              $510
+  59  $LOAD version, baseMVA, total_cost
+****      $502
+  60   
+  61  * If %times% not provided, use default in dataset
+  62  $LOADR t
+****       $502
+  63   
+  64  $LOAD bus, gen, circuit, line, transformer, monitored_lines
+****      $502
+  65  $LOAD bus_t, bus_s, gen_t, gen_s, branch_t, branch_s
+****      $502
+  66  $LOAD fuel_t, fuel_s, prime_mover
+****      $502
+  67  $LOAD businfo, geninfo, branchinfo, fuelinfo
+****      $502
+  68  $LOAD interface, interfacemap, interfaceinfo, interface_t
+****      $502
+  69   
+  70  * Option to use elastic demand bidding turned on
+  73   
+  74  *==== SECTION: Validity of options
+  75  * linelimits, case insensitive
+  76  $abort "Fix invalid option: --linelimit=%linelimits%"
+****       $343
+**** LINE     79 INPUT       C:\Users\Jairo\Desktop\Modelo\models\extract_data_u
+                             c.gms
+**** Incomplete $IfThen at nest level 1 from line 76 inclevel 0
+
+**** LIST OF STRAY NAMES - CHECK DECLARATIONS FOR SPURIOUS COMMAS
+**** STRAY NAME fuel_t OF TYPE SET  
+**** STRAY NAME fuel_s OF TYPE SET  
+**** STRAY NAME prime_mover OF TYPE SET  
+**** STRAY NAME bus_t OF TYPE SET  
+**** STRAY NAME bus_s OF TYPE SET  
+**** STRAY NAME gen_t OF TYPE SET  
+**** STRAY NAME gen_s OF TYPE SET  
+**** STRAY NAME branch_t OF TYPE SET  
+**** STRAY NAME branch_s OF TYPE SET  
+**** STRAY NAME interface_t OF TYPE SET  
+**** STRAY NAME baseMVA OF TYPE PARAM
+**** STRAY NAME total_cost OF TYPE PARAM
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 03/18/21 10:13:02 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Error Messages
+
+
+343  Abort triggered by above statement
+502  GDXIN  file not open - ignore rest of line
+510  Unable to open gdx file for $GDXIN
+
+**** 9 ERROR(S)   0 WARNING(S)
+
+
+COMPILATION TIME     =        0.032 SECONDS      3 MB  24.9.2 r64480 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G170728:0528AO-GEN
+      Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\Jairo\Desktop\Modelo\models\extract_data_uc.gms
+Output     C:\Users\Jairo\Desktop\Modelo\DataUtilities\extract_data_uc.lst
+
+**** USER ERROR(S) ENCOUNTERED

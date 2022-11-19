@@ -1,0 +1,1493 @@
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/28/21 13:44:15 Page 1
+"AC Optimal Power Flow with unit commitment"
+C o m p i l a t i o n
+
+
+   2  *_________________________________________________________________________
+      ______
+   3  * Filename: uc_rect.gms
+   4  * Description: Rect power-voltage AC Optimal Power Flow model with unit co
+      mmitment
+   5  *
+   6  * Usage: gams uc_rect --case=/path/case.gdx
+   7  *
+   8  * Options:
+   9  * --times: Select timeframe(s) to solve. Default provided by input file
+  10  * --obj: Objective function, piecewise linear or quadratic. Default="pwl"
+  11  * --demandbids: Elastic demand bidding turned on(1) or off(0). Default=0
+  12  * --linelimits: Type of line limit data to use. Default="given"
+  13  * --ramprates: Type of ramprate data to use. Default="given"
+  14  * --genPmin: Data for Generator lower limit. Default="given"
+  15  * --allon: Option to turn on all lines during solve. Default=none
+  16  * --slim: slim option does not apply here. Default=0 (not used)
+  17  * --qlim: Option to use D-curve constraints. Default=0 (not used)
+  18  * --relax: Turn on relaxed integer option(1).Default=0.
+  19  * --savesol: Turn on save solution option(1). Default=0
+  20  * --verbose: Supresses printout(0). Default=1
+  21  * --wind: Whether to turn off wind turbines. Can only be used with
+  22  *         PrimeMover,pm_WT. Default=0.
+  23  *_________________________________________________________________________
+      ______
+  24   
+  25  * System dependence
+  28   
+  29  *===== SECTION: OPTIONS & ENVIRONMENT VARIABLES
+  30  * Printout options
+  32   
+  33  * Define filepath, name and extension.
+  35  * Define type of model
+  37  * Define input case
+  40   
+  41  * Default: Piecewise linear objective
+  43  * Default: elastic demand bidding turned off
+  45  * Default: Use provided ramprates (as opposed to uwcalc)
+  47  * Default: Use provided line limits (as opposed to uwcalc)
+  49  * Default: Use provided generator lower limit
+  51  * Default: allon=0
+  53  * Default: slim option does not apply here. Apparent limits always used
+  55  * Default: Ignore D-curve constraints
+  57  * Default: Relaxed MIP option turned off
+  59  * Default: Save solution option turned off
+  61   
+  62   
+  63  *===== SECTION: EXTRACT DATA
+BATINCLUDE C:\Users\Jairo\Downloads\Prueba\models\extract_data_uc.gms
+  65  *==== SECTION: Data (pre) declaration
+  66  sets
+  67  * New sets
+  68    conj /real,imag/
+  69    costcoefset "Placeholder set for quadratic function coefficients (0,1,2)
+      " /0*2/
+  70    costptset "Placeholder set for pwl function pieces" /1*40/
+  71   
+  72  * Based on %times% option. See LOADR t below for default option if %times%
+       not set
+  73  t /t1/,
+  75   
+  76  * Dataset sets
+  77    bus, gen, circuit,
+  78    interface, interfacemap (interface,bus,bus),
+  79    fuel_t, fuel_s, prime_mover,
+  80    bus_t, bus_s,
+  81    gen_t, gen_s,
+  82    branch_t, branch_s,
+  83   
+  84    interface_t,
+  85    line(bus,bus,circuit),
+  86    transformer(bus,bus,circuit),
+  87    monitored_lines(bus,bus,circuit)
+  88  ;
+  89   
+  90  *-- Aliases
+  91  alias(bus,i,j);
+  92  alias(circuit,c);
+  93  alias(t,t1);
+  94  alias (gen,gen1);
+  95   
+  96  parameters
+  97      version, baseMVA, total_cost,
+  98  * Domain info not stated because of how we iterate through data
+  99      businfo(bus,*,*),
+ 100      geninfo(gen,*,*),
+ 101      fuelinfo(*,*),
+ 102      branchinfo(*,*,*,*,*),
+ 103      interfaceinfo(*,*,*)
+ 104  ;
+ 105   
+ 106  *-- Specially handled data (option specific)
+ 108  sets
+ 109    demandbid_t(*) / /
+ 110    demandbid_s(*) / /
+ 111    demandbid(*) / /
+ 112    demandbidmap (*,*) / /
+ 113  ;
+ 114   
+ 115  parameters
+ 116    demandbidinfo(*,*,*,*) / /
+ 117  ;
+ 119   
+ 120   
+ 121  *==== SECTION: Data read-in from input file
+GDXIN   C:\Users\Jairo\Downloads\Prueba\Testcases_gdx\rts96_summer_wday.gdx
+--- LOAD  version = 25:version
+--- LOAD  baseMVA = 26:baseMVA
+--- LOAD  total_cost = 27:total_cost
+ 124   
+ 125  * If %times% not provided, use default in dataset
+ 127   
+--- LOAD  bus = 3:bus
+--- LOAD  gen = 4:gen
+--- LOAD  circuit = 5:circuit
+--- LOAD  line = 22:line
+--- LOAD  transformer = 23:transformer
+--- LOAD  monitored_lines = 24:monitored_lines
+--- LOAD  bus_t = 13:bus_t
+--- LOAD  bus_s = 14:bus_s
+--- LOAD  gen_t = 15:gen_t
+--- LOAD  gen_s = 16:gen_s
+--- LOAD  branch_t = 17:branch_t
+--- LOAD  branch_s = 18:branch_s
+--- LOAD  fuel_t = 6:fuel_t
+--- LOAD  fuel_s = 7:fuel_s
+--- LOAD  prime_mover = 8:prime_mover
+--- LOAD  businfo = 28:businfo
+--- LOAD  geninfo = 29:geninfo
+--- LOAD  branchinfo = 31:branchinfo
+--- LOAD  fuelinfo = 30:fuelinfo
+--- LOAD  interface = 11:interface
+--- LOAD  interfacemap = 12:interfacemap
+--- LOAD  interfaceinfo = 33:interfaceinfo
+--- LOAD  interface_t = 21:interface_t
+ 133   
+ 134  * Option to use elastic demand bidding turned on
+ 137   
+ 138  *==== SECTION: Validity of options
+ 139  * linelimits, case insensitive
+ 142   
+ 143  * ramprates, case insensitive
+ 146   
+ 147  * genPmin, case insensitive
+ 150   
+ 151  * allon, case insensitive
+ 154   
+ 155  *==== SECTION: Data Declaration (extracted/manipulated from datafile)
+ 156  *-- All OPF models
+ 157  parameters
+ 158    type(bus)          "bus type (probably irrelevant, but gives reference b
+      us[es])"
+ 159    pf(bus)            "bus demand power factor"
+ 160    Pd(bus,t)          "bus real power demand"
+ 161   
+ 162    Pg(gen,t)          "gen real power output"
+ 163    Pmax(gen)          "gen maximum real power output"
+ 164    Pmin(gen)          "gen minimum real power output"
+ 165    Va(bus,t)          "bus voltage angle"
+ 166   
+ 167    Vm(bus,t)          "bus voltage magnitude"
+ 168    MaxVm(bus) "maximum bus voltage magnitude"
+ 169    MinVm(bus) "minimum bus voltage magnitude"
+ 170    Gs(bus)            "bus shunt conductance"
+ 171   
+ 172    rampup(gen)        "increasing ramp rate of generator"
+ 173    rampdown(gen)      "decreasing ramp rate of generator"
+ 174    atBus(gen,bus)     "Location of generator"
+ 175    status(gen,t)      "generator status"
+ 176   
+ 177    costcoef           "gen cost coefficients"
+ 178    costpts_x          "gen cost breakpoints (piecewise linear)"
+ 179    costpts_y          "gen cost breakpoints (piecewise linear)"
+ 180   
+ 181    costmodel(gen)     "gen cost model type"
+ 182    numcostpts(gen)    "gen cost number of piecewise points"
+ 183    numcostcoef(gen)   "gen cost number of coefficients"
+ 184    noloadcost(gen)    "generator no load operating cost for piecewise cost 
+      functions"
+ 185    startupcost(gen)   "generator startup cost"
+ 186    shutdowncost(gen)  "generator shutdown cost"
+ 187    minuptime(gen)     "generator minimum time to remain on"
+ 188    mindowntime(gen)   "generator minimum time to remain off"
+ 189   
+ 190    r(i,j,c)           "line resistance",
+ 191    x(i,j,c)           "line reactance",
+ 192    B(i,j,c)           "line susceptance",
+ 193    ratio(i,j,c)       "transformer tap ratio",
+ 194    angle(i,j,c)       "transformer tap angle",
+ 195    rateA(i,j,c)       "line power limits (MW)",
+ 196    currentrate(i,j,c)  "line current limits",
+ 197    branchstatus(i,j,c,t) "line status",
+ 198    interfaceLimit(interface,t) "Limit on power across each interface"
+ 199  ;
+ 200   
+ 201  * Bus type
+ 202  type(bus)  = businfo(bus,'type','given');
+ 203  * Power factor
+ 204  pf(bus)    = businfo(bus,'pf','given');
+ 205  * Bus demand (real power)
+ 206  Pd(bus,t)  = businfo(bus,'Pd',t)/baseMVA;
+ 207   
+ 208  * Bus shunt conductance
+ 209  Gs(bus)    = businfo(bus,'Gs','given')/baseMVA;
+ 210   
+ 211  atBus(gen,bus)$geninfo(gen,'atBus',bus) = 1;
+ 212  Pg(gen,t) = geninfo(gen,'Pg',t)/baseMVA;
+ 213   
+ 214  * Maximum power generation
+ 215  Pmax(gen) = geninfo(gen,'Pmax','given')/baseMVA;
+ 216   
+ 217  * Minimum power generation options
+ 219    Pmin(gen)= geninfo(gen,'Pmin','given')/baseMVA;
+ 221   
+ 222  * Voltage angle
+ 223  Va(bus,t)  = businfo(bus,'Va',t)*pi/180;
+ 224  * Voltage  magnitude information
+ 225  Vm(bus,t)  = businfo(bus,'Vm',t);
+ 226  maxVm(bus) = businfo(bus,'maxVm','given');
+ 227  minVm(bus) = businfo(bus,'minVm','given');
+ 228   
+ 229  * Initial generator commitment
+ 230  status(gen,t) = geninfo(gen,'status',t);
+ 231   
+ 232  * Initial branch status (active/not connected)
+ 233  branchstatus(i,j,c,t)$line(i,j,c) = branchinfo(i,j,c,'branchstatus',t);
+ 234   
+ 235  * Min up and down times
+ 236  minuptime(gen)   = geninfo(gen,'MinUptime','given');
+ 237  mindowntime(gen) = geninfo(gen,'MinUptime','given');
+ 238   
+ 239  * Ramp rates, uwcalc or given
+ 240  rampup(gen)   = geninfo(gen,'RampUp','given')/baseMVA;
+ 241  rampdown(gen) = geninfo(gen,'RampDown','given')/baseMVA;
+ 242   
+ 243  * Define original cost model in dataset
+ 244  costmodel(gen) = geninfo(gen,'costmodel','given');
+ 245   
+ 246  * No load, startup, shutdown cost
+ 247  noloadcost(gen) = geninfo(gen,'noloadcost','given');
+ 248  startupcost(gen) = geninfo(gen,'startupcost','given');
+ 249  shutdowncost(gen) = geninfo(gen,'shutdowncost','given');
+ 250   
+ 251  * Quadratic objective function
+ 252  numcostcoef(gen) = geninfo(gen,'numcostcoef','given');
+ 253  costcoef(gen,costcoefset)$geninfo(gen,'costcoef',costcoefset) = geninfo(ge
+      n,'costcoef',costcoefset);
+ 254   
+ 255  * Piecewise linear information
+ 256  numcostpts(gen) = geninfo(gen,'numcostpts','given');
+ 257  costpts_x(gen,costptset)$geninfo(gen,'costpts_x',costptset)   = geninfo(ge
+      n,'costpts_x',costptset);
+ 258  costpts_y(gen,costptset)$geninfo(gen,'costpts_y',costptset)   = geninfo(ge
+      n,'costpts_y',costptset);
+ 259   
+ 260  * Line resistance (r) and reactance (x)
+ 261  r(i,j,c)$line(i,j,c) = branchinfo(i,j,c,'r','given');
+ 262  x(i,j,c)$line(i,j,c) = branchinfo(i,j,c,'x','given');
+ 263   
+ 264  * Line limit (active power)
+ 265  rateA(i,j,c)$line(i,j,c) = branchinfo(i,j,c,'rateA','given')/baseMVA;
+ 266  rateA(j,i,c)$line(i,j,c) = rateA(i,j,c);
+ 267  * If linelimits=inf, no monitored lines
+ 269   
+ 270  * Limit on power across each interface
+ 271  interfaceLimit(interface,t) = interfaceinfo(interface,t,'rateA')/baseMVA;
+ 272   
+ 273  * Line current
+ 274  currentrate(i,j,c)$line(i,j,c) = branchinfo(i,j,c,'currentrateA','given');
+ 275  currentrate(j,i,c)$line(i,j,c) = branchinfo(i,j,c,'currentrateA','given');
+ 276   
+ 277  * Take down all lines to buses marked as "isolated"
+ 278  branchstatus(i,j,c,t)$(type(i) eq 4 or type(j) eq 4) = 0;
+ 279   
+ 280  * Line susceptance
+ 281  B(i,j,c)$line(i,j,c) = -x(i,j,c)/(sqr(r(i,j,c))+sqr(x(i,j,c)));
+ 282  B(j,i,c)$b(i,j,c) = b(i,j,c);
+ 283   
+ 284  * transformer tap ratios and angles
+ 285  ratio(i,j,c)$line(i,j,c) = branchinfo(i,j,c,'ratio','given');
+ 286  ratio(j,i,c)$ratio(i,j,c) =  ratio(i,j,c);
+ 287  angle(i,j,c)$line(i,j,c) = branchinfo(i,j,c,'angle','given') * pi/180;
+ 288  angle(j,i,c)$angle(i,j,c) = -angle(i,j,c);
+ 289   
+ 290   
+ 291   
+ 293  *---- AC model data types
+ 294  parameters
+ 295    Qd(bus,t) "bus reactive power demand"
+ 296   
+ 297    Qg(gen,t)   "gen reactive power output"
+ 298    Qmax(gen)   "gen maximum reactive power output"
+ 299    Qmin(gen)   "gen minimum reactive power output"
+ 300   
+ 301    Bs(bus) "bus shunt susceptance"
+ 302    yb(i,j,conj,t) "Bus admittance matrix, Ybus"
+ 303   
+ 304    g(i,j,c) "line conductance",
+ 305    bc(i,j,c) "line charging susceptance"
+ 306    Bswitched(bus,bus_s) "susceptance of switched shunts",
+ 307    numBswitched(bus,bus_s) "number of each type of switched shunt elements 
+      at each bus"
+ 308  ;
+ 309   
+ 310  * Reactive power information
+ 311  Qd(bus,t)  = businfo(bus,'Qd',t)/baseMVA;
+ 312  Qmax(gen) = geninfo(gen,'Qmax','given')/baseMVA;
+ 313  Qmin(gen) = geninfo(gen,'Qmin','given')/baseMVA;
+ 314  Qg(gen,t) = geninfo(gen,'Qg',t)/baseMVA;
+ 315   
+ 316  * Bus shunt conductance and susceptance
+ 317  Bs(bus)    = businfo(bus,'Bs','given')/baseMVA;
+ 318   
+ 319  * line conductance
+ 320  g(i,j,c)$line(i,j,c) =  r(i,j,c)/(sqr(r(i,j,c))+sqr(x(i,j,c)));
+ 321  g(j,i,c)$g(i,j,c) = g(i,j,c);
+ 322   
+ 323  * line charging conductance
+ 324  bc(i,j,c)$line(i,j,c) = branchinfo(i,j,c,'bc','given');
+ 325  bc(j,i,c)$bc(i,j,c) = bc(i,j,c);
+ 326   
+ 327  * number and susceptance of switched shunt element data
+ 328  numBswitched(bus,bus_s) = businfo(bus,'switchedelements',bus_s);
+ 329  Bswitched(bus,bus_s)    = businfo(bus,'switchedBs',bus_s)/baseMVA;
+ 330   
+ 332   
+ 333   
+ 334  * ==== SECTION: Additional Model Options
+ 335  *-- Elastic demand bidding turned on/off
+ 337   
+ 338   
+ 339  *-- %allon% options
+ 341   
+ 342   
+ 343  *===== SECTION: DATA MANIPULATION
+ 344  * If no data is provided for a generator's minimum up and down time, set t
+      o 1
+ 345  minuptime(gen) = max(1,minuptime(gen));
+ 346  mindowntime(gen) = max(1,mindowntime(gen));
+ 347   
+ 348  rampup(gen) = rampup(gen)*baseMVA;
+ 349  rampdown(gen) = rampdown(gen)*baseMVA;
+ 350   
+ 351  *--- Define load, gen buses and active lines
+ 352  sets
+ 353      load(bus) "Load buses"
+ 354      isGen(bus) "Generator buses"
+ 355      isLine(i,j) "Active (i,j) line"
+ 356  ;
+ 357   
+ 358  load(bus)$(sum(gen, atBus(gen,bus)) eq 0)  = 1;
+ 359  isGen(bus)$(not(load(bus))) = 1;
+ 360  option isLine < branchstatus;
+ 361   
+ 362  *===== SECTION: VARIABLE DEFINITION
+ 363  free variables
+ 364      V_P(gen,t)            "Real power generation of generator at time t"
+ 365      V_Q(gen,t)            "Reactive power generation of generator at time 
+      t"
+ 366      V_real(i,t)          "Real part of bus voltage"
+ 367      V_imag(i,t)          "Imaginary part of bus voltage"
+ 368   
+ 369      V_LineIr(i,j,c,t)   "Real power flowing from bus i towards bus j on li
+      ne c at time t"
+ 370      V_LineIq(i,j,c,t)   "Real power flowing from bus i towards bus j on li
+      ne c at time t"
+ 371  ;
+ 372   
+ 373  binary variables
+ 374      V_genstatus(gen,t)    "Generator commitment status for time t"
+ 375  ;
+ 376   
+ 377  positive variables
+ 378      V_startup(gen,t) "(0,1) startup status of generator at time t"
+ 379      V_shutdown(gen,t) "(0,1) shutdown status of generator at time t"
+ 380   
+ 381      V_shunt(bus,bus_s,t)    "Bus shunt susceptance"
+ 382      V_V(bus,t)         "Voltage real part at bus at time t"
+ 383   
+ 384      V_pw_cost(gen,t) "Generator piecewise cost"
+ 385      V_Pd_elastic(demandbid,t) "Elastic incremental demand"
+ 386      V_demandbid_rev(demandbid,t) "Revenue from elastic incremental demand"
+ 387  ;
+ 388   
+ 389  free variable V_objcost "Total cost of objective function";
+ 390   
+ 391   
+ 392  *===== SECTION: EQUATION DEFINITION
+ 393  equations
+ 394      c_I_limit(i,j,c,t)     "Limit apparent current on a line"
+ 395      c_V_limit_lo(i,t)     "Limit voltage magnitude on a line"
+ 396      c_V_limit_up(i,t)     "Limit voltage magnitude on a line"
+ 397   
+ 398      c_LineIrij(i,j,c,t)    "Real power flowing from bus i into bus j along
+       line c"
+ 399      c_LineIrji(i,j,c,t)    "Real power flowing from bus j into bus i along
+       line c"
+ 400      c_LineIqij(i,j,c,t)    "Reactive power flowing from bus i into bus j a
+      long line c"
+ 401      c_LineIqji(i,j,c,t)    "Reactive power flowing from bus j into bus i a
+      long line c"
+ 402   
+ 403      c_BalanceP(bus,t) "Balance of real power for bus at time t"
+ 404      c_BalanceQ(bus,t) "Balance of reactive power for bus at time t"
+ 405   
+ 406      c_GenStatusMin(gen,t) "Generator minimum operating capacity"
+ 407      c_GenStatusMax(gen,t) "Generator maximum operating capacity"
+ 408      c_GenStatusQMin(gen,t) "Generator minimum operating capacity"
+ 409      c_GenStatusQMax(gen,t) "Generator maximum operating capacity"
+ 410      c_StartupShutdown(gen,t) "Relationship of binary (start,shut,status) v
+      ariables"
+ 411      c_MinUptime(gen,t) "Minimum generator run time"
+ 412      c_MinDowntime(gen,t) "Minimum generator down time"
+ 413      c_RampUp(gen,t) "Generator ramp up constraints"
+ 414      c_RampDown(gen,t) "Generator ramp down constraints"
+ 415   
+ 416  * If elastic bidding is turned on
+ 418   
+ 419      c_pw_cost(gen,t,costptset)
+ 420      c_obj
+ 421  ;
+ 422   
+ 423  *===== SECTION: EQUATIONS PART 1
+ 424  * Apparent power limit on line ijc
+ 425  c_I_limit(i,j,c,t)$(branchstatus(i,j,c,t) or branchstatus(j,i,c,t))..
+ 426  sqr(V_LineIr(i,j,c,t)) + sqr(V_LineIq(i,j,c,t)) =l= sqr(rateA(i,j,c));
+ 427   
+ 428  * Limit voltage magnitude on a line
+ 429  c_V_limit_lo(i,t)..
+ 430      sqr(V_real(i,t)) + sqr(V_imag(i,t)) =g= sqr(minVm(i))
+ 431  ;
+ 432   
+ 433  * Limit voltage magnitude on a line
+ 434  c_V_limit_up(i,t)..
+ 435      sqr(V_real(i,t)) + sqr(V_imag(i,t)) =l= sqr(maxVm(i))
+ 436  ;
+ 437   
+ 438  *Real current flowing from bus i into bus j along line c
+ 439  c_LineIrij(i,j,c,t)$(branchstatus(i,j,c,t))..
+ 440           V_LineIr(i,j,c,t) =e=
+ 441              1/sqr(ratio(i,j,c))
+ 442                  * (g(i,j,c)*V_real(i,t) - (b(i,j,c) + bc(i,j,c)/2)*V_imag(
+      i,t))
+ 443              - 1/ratio(i,j,c)
+ 444                  * (  (g(i,j,c)*V_real(j,t) - b(i,j,c)*V_imag(j,t))*cos(ang
+      le(i,j,c))
+ 445                     - (g(i,j,c)*V_imag(j,t) + b(i,j,c)*V_real(j,t))*sin(ang
+      le(i,j,c))
+ 446                    )
+ 447  ;
+ 448   
+ 449  *Real current flowing from bus j into bus i along line c
+ 450  c_LineIrji(i,j,c,t)$(branchstatus(i,j,c,t))..
+ 451           V_LineIr(j,i,c,t) =e=
+ 452              (g(i,j,c)*V_real(j,t) - (b(i,j,c) + bc(i,j,c)/2)*V_imag(j,t))
+ 453              - 1/ratio(i,j,c)
+ 454                  * (  (g(i,j,c)*V_real(i,t) - b(i,j,c)*V_imag(i,t))*cos(-an
+      gle(i,j,c))
+ 455                     - (g(i,j,c)*V_imag(i,t) + b(i,j,c)*V_real(i,t))*sin(-an
+      gle(i,j,c))
+ 456                    )
+ 457  ;
+ 458   
+ 459  *Reactive current flowing from bus i into bus j along line c
+ 460  c_LineIqij(i,j,c,t)$(branchstatus(i,j,c,t))..
+ 461           V_LineIq(i,j,c,t) =e=
+ 462              1/sqr(ratio(i,j,c))
+ 463                  * (g(i,j,c)*V_imag(i,t) + (b(i,j,c) + bc(i,j,c)/2)*V_real(
+      i,t))
+ 464              - 1/ratio(i,j,c)
+ 465                  * (  (g(i,j,c)*V_imag(j,t) + b(i,j,c)*V_real(j,t))*cos(ang
+      le(i,j,c))
+ 466                     + (g(i,j,c)*V_real(j,t) - b(i,j,c)*V_imag(j,t))*sin(ang
+      le(i,j,c))
+ 467                    )
+ 468  ;
+ 469   
+ 470  *Reactive current flowing from bus j into bus i along line c
+ 471  c_LineIqji(i,j,c,t)$(branchstatus(i,j,c,t))..
+ 472           V_LineIq(j,i,c,t) =e=
+ 473              (g(i,j,c)*V_imag(j,t) + (b(i,j,c) + bc(i,j,c)/2)*V_real(j,t))
+ 474              - 1/ratio(i,j,c)
+ 475                  * (  (g(i,j,c)*V_imag(i,t) + b(i,j,c)*V_real(i,t))*cos(-an
+      gle(i,j,c))
+ 476                     + (g(i,j,c)*V_real(i,t) - b(i,j,c)*V_imag(i,t))*sin(-an
+      gle(i,j,c))
+ 477                    )
+ 478  ;
+ 479   
+ 480  * Active power node balance eqn
+ 481  c_BalanceP(i,t)$(type(i) ne 4)..
+ 482            sum(gen$(atBus(gen,i) and status(gen,t)), V_P(gen,t))
+ 483            - Pd(i,t)
+ 484              =e=
+ 485            V_real(i,t) *
+ 486          ( sum((j,c)$(branchstatus(i,j,c,t)), V_LineIr(i,j,c,t))
+ 487            + sum((j,c)$(branchstatus(j,i,c,t)), V_LineIr(i,j,c,t)) )
+ 488          + V_imag(i,t) *
+ 489           (sum((j,c)$(branchstatus(i,j,c,t)), V_LineIq(i,j,c,t))
+ 490            + sum((j,c)$(branchstatus(j,i,c,t)), V_LineIq(i,j,c,t)))
+ 491          + Gs(i) * (sqr(V_real(i,t)) + sqr(V_imag(i,t)))
+ 492  ;
+ 493   
+ 494  * Reactive power node balance eqn
+ 495  c_BalanceQ(i,t)$(type(i) ne 4)..
+ 496            sum(gen$(atBus(gen,i) and status(gen,t)), V_Q(gen,t))
+ 497            - Qd(i,t)
+ 498              =e=
+ 499            - V_real(i,t) *
+ 500          ( sum((j,c)$(branchstatus(i,j,c,t)), V_LineIq(i,j,c,t))
+ 501            + sum((j,c)$(branchstatus(j,i,c,t)), V_LineIq(i,j,c,t)))
+ 502          + V_imag(i,t) *
+ 503          ( sum((j,c)$(branchstatus(i,j,c,t)), V_LineIr(i,j,c,t))
+ 504            + sum((j,c)$(branchstatus(j,i,c,t)), V_LineIr(i,j,c,t)))
+ 505          - Bs(i) * (sqr(V_real(i,t)) + sqr(V_imag(i,t)))
+ 506          - (sqr(V_real(i,t)) + sqr(V_imag(i,t)))
+ 507            * sum(bus_s$(not sameas(bus_s,'given')), Bswitched(i,bus_s) * V_
+      shunt(i,bus_s,t))
+ 508  ;
+ 509   
+ 510  * Generator minimum operating capacity
+ 511  c_GenStatusMin(gen,t)..
+ 512      V_genstatus(gen,t) * Pmin(gen) =l= V_P(gen,t)
+ 513  ;
+ 514   
+ 515  * Generator maximum operating capacity
+ 516  c_GenStatusMax(gen,t)..
+ 517      V_P(gen,t) =l= V_genstatus(gen,t) * Pmax(gen)
+ 518  ;
+ 519   
+ 520  * Generator minimum operating capacity
+ 521  c_GenStatusQMin(gen,t)..
+ 522      V_genstatus(gen,t) * Qmin(gen) =l= V_Q(gen,t)
+ 523  ;
+ 524   
+ 525  * Generator maximum operating capacity
+ 526  c_GenStatusQMax(gen,t)..
+ 527      V_Q(gen,t) =l= V_genstatus(gen,t) * Qmax(gen)
+ 528  ;
+ 529   
+ 530  * Relationship of binary (start,shut,status) variables
+ 531  c_StartupShutdown(gen,t)..
+ 532  V_startup(gen,t) - V_shutdown(gen,t) =e= V_genstatus(gen,t) - V_genstatus(
+      gen,t-1);
+ 533   
+ 534   
+ 535  * Minimum generator run time
+ 536  c_MinUptime(gen,t)$(minuptime(gen) gt 0)..
+ 537  V_genstatus(gen,t) =g=
+ 538      sum(t1$((ord(t1) ge (ord(t) - minuptime(gen) + 1)) and (ord(t1) le ord
+      (t))), V_startup(gen,t1))
+ 539  ;
+ 540   
+ 541  * Minimum generator down time
+ 542  c_MinDowntime(gen,t)$(mindowntime(gen) gt 0)..
+ 543  V_genstatus(gen,t) =l=
+ 544      1 - sum(t1$((ord(t1) ge (ord(t) - mindowntime(gen) + 1)) and (ord(t1) 
+      le ord(t))), V_shutdown(gen,t1))
+ 545  ;
+ 546   
+ 547  * Generator ramp up constraints
+ 548  c_RampUp(gen,t)$(ord(t) ge 2)..
+ 549  V_P(gen,t) =l=  V_P(gen,t-1) + rampup(gen)*V_genstatus(gen,t) + (Pmax(gen)
+      -rampup(gen))*V_startup(gen,t);
+ 550   
+ 551  * Generator ramp down constraints
+ 552  c_RampDown(gen,t)$(ord(t) ge 2)..
+ 553  V_P(gen,t-1) =l=
+ 554      V_P(gen,t) + rampdown(gen)*V_genstatus(gen,t) + (Pmax(gen)-rampdown(ge
+      n))*V_shutdown(gen,t)
+ 555  ;
+ 556   
+ 557  * Objective functions and pwl costs are listed in a separate file
+BATINCLUDE C:\Users\Jairo\Downloads\Prueba\models\cost_objective_uc.gms
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/28/21 13:44:15 Page 2
+Cost objective calculations for UC models
+C o m p i l a t i o n
+
+
+ 560  costmodel(gen)= 1;
+ 562   
+ 563  *-- Convexity Check
+ 564  * Not part of system of equations
+ 565  * LP/QCP/NLP can't handle nonconvex piecewise linear cost functions
+ 566  set thisgen(gen);
+ 567   
+ 568  parameters cur_slope, next_slope;
+ 569  loop(gen$((smax(t,status(gen,t)) ge 1)  and (numcostpts(gen) > 2)),
+ 570      next_slope = (costpts_y(gen,'2') - costpts_y(gen,'1'))
+ 571                   / (costpts_x(gen,'2') - costpts_x(gen,'1'));
+ 572      loop(costptset$(ord(costptset) < numcostpts(gen) - 1),
+ 573          cur_slope = next_slope;
+ 574          if((ord(costptset) < numcostpts(gen) - 2) and (costpts_x(gen,costp
+      tset+2) eq costpts_x(gen,costptset+1)),
+ 575              abort "Zero-length piecewise segment detected";
+ 576          );
+ 577          next_slope = (costpts_y(gen,costptset+2) - costpts_y(gen,costptset
+      +1))
+ 578                       / (costpts_x(gen,costptset+2) - costpts_x(gen,costpts
+      et+1))
+ 579          if(cur_slope-next_slope > 1e-8 ,
+ 580              thisgen(gen1)=no; thisgen(gen)=yes;
+ 581              display thisgen, cur_slope, next_slope;
+ 582              abort "Nonconvex piecewise linear costs not supported";
+ 583          );
+ 584      );
+ 585  );
+ 586   
+ 587   
+ 588  *===== SECTION: EQUATIONS PART 2
+ 589  * Defining piecewise linear generator cost curves
+ 590  * P is in per-unit, costpts_x is in MW, and costpts_y is in $/hr
+ 591  c_pw_cost(gen,t,costptset)$((ord(costptset) < numcostpts(gen)) and (costmo
+      del(gen) eq 1))..
+ 592  V_pw_cost(gen,t) =g=
+ 593      ((costpts_y(gen,costptset+1) - costpts_y(gen,costptset))/
+ 594       (costpts_x(gen,costptset+1) - costpts_x(gen,costptset)))
+ 595        * (V_P(gen,t)*baseMVA - costpts_x(gen,costptset))
+ 596      + costpts_y(gen,costptset)*V_genstatus(gen,t)
+ 597  ;
+ 598   
+ 600   
+ 601  * Objective function
+ 602  c_obj..
+ 603      V_objcost =e=
+ 605      - sum((demandbid,t), V_demandbid_rev(demandbid,t))
+ 606      + sum((gen,t),V_startup(gen,t)*startupcost(gen) + V_shutdown(gen,t)*sh
+      utdowncost(gen))
+ 608  * Piecewise linear objective function
+ 609      + sum((gen,t)$(costmodel(gen) eq 1), V_pw_cost(gen,t))
+ 612  ;
+ 613   
+ 614  *===== SECTION: MODEL DEFINITION
+ 615  model feas /c_I_limit, c_V_limit_lo, c_V_limit_up,
+ 616              c_LineIrij, c_LineIrji, c_LineIqij, c_LineIqji,
+ 617              c_BalanceP, c_BalanceQ, c_GenStatusMin, c_GenStatusMax, c_GenS
+      tatusQMin, c_GenStatusQMax,
+ 618              c_StartupShutdown, c_MinUptime, c_MinDowntime, c_RampUp, c_Ram
+      pDown
+ 620        /;
+ 621  model uc_ac /feas, c_pw_cost, c_obj/;
+ 622   
+ 623  *===== SECTION: VARIABLE BOUNDS
+ 624  * Generator active power generation limits
+ 625  V_P.lo(gen,t) = 0;
+ 626  V_P.up(gen,t) = Pmax(gen);
+ 628  * Generator reactive power generation limits
+ 629  V_Q.lo(gen,t) = min(Qmin(gen),0);
+ 630  V_Q.up(gen,t) = Qmax(gen);
+ 631   
+ 632  * Bus voltage magnitude limits
+ 633  V_real.lo(bus,t) = -MaxVm(bus);V_real.up(bus,t) = MaxVm(bus);
+ 634  V_imag.lo(bus,t) = -MaxVm(bus);V_imag.up(bus,t) = MaxVm(bus);
+ 635  V_imag.fx(bus,t)$(type(bus) eq 3) = 0;
+ 636   
+ 637  * Bus shunt susceptance
+ 638  V_shunt.up(bus,bus_s,t) = numBswitched(bus,bus_s);
+ 640   
+ 641  *--- Elastic demand
+ 642  * If user chooses option --demandbids=0, no elastic demand is considered
+ 643  * Otherwise, set bounds on elastic demand
+ 645    V_Pd_elastic.fx(demandbid,t) = 0;
+ 646    V_demandbid_rev.fx(demandbid,t) = 0;
+ 648   
+ 649   
+ 650  *===== SECTION: VARIABLE INITIAL STARTING POINTS
+ 651  V_shunt.l(bus,bus_s,t)  = 1;
+ 652  * Starting values may be provided in the data file
+ 653  * Startup and shutdown variables are binary {0,1} via equations
+ 654  V_genstatus.fx(gen,t) = status(gen,t);
+ 655  V_genstatus.l(gen,t) = status(gen,t);
+ 656  V_startup.l(gen,t)  = max(0, status(gen,t)-status(gen,t-1));
+ 657  V_shutdown.l(gen,t) = max(0, status(gen,t-1)-status(gen,t));
+ 658   
+ 659  V_P.l(gen,t) = Pg(gen,t);
+ 660  V_Q.l(gen,t) = Qg(gen,t);
+ 661  V_real.l(bus,t) = Vm(bus,t);
+ 662  V_imag.l(bus,t) = Vm(bus,t);
+ 663   
+ 664  * Derived variables
+ 665  V_LineIr.l(i,j,c,t)$branchstatus(i,j,c,t) =  1/sqr(ratio(i,j,c))
+ 666                  * (g(i,j,c)*V_real.l(i,t) - (b(i,j,c) + bc(i,j,c)/2)*V_ima
+      g.l(i,t))
+ 667              - 1/ratio(i,j,c)
+ 668                  * (  (g(i,j,c)*V_real.l(j,t) - b(i,j,c)*V_imag.l(j,t))*cos
+      (angle(i,j,c))
+ 669                     - (g(i,j,c)*V_imag.l(j,t) + b(i,j,c)*V_real.l(j,t))*sin
+      (angle(i,j,c)));
+ 670   
+ 671  V_LineIr.l(j,i,c,t)$branchstatus(i,j,c,t) =  (g(i,j,c)*V_real.l(j,t) - (b(
+      i,j,c) + bc(i,j,c)/2)*V_imag.l(j,t))
+ 672              - 1/ratio(i,j,c)
+ 673                  * (  (g(i,j,c)*V_real.l(i,t) - b(i,j,c)*V_imag.l(i,t))*cos
+      (-angle(i,j,c))
+ 674                     - (g(i,j,c)*V_imag.l(i,t) + b(i,j,c)*V_real.l(i,t))*sin
+      (-angle(i,j,c)));
+ 675   
+ 676  V_LineIq.l(i,j,c,t)$branchstatus(i,j,c,t) =  1/sqr(ratio(i,j,c))
+ 677                  * (g(i,j,c)*V_imag.l(i,t) + (b(i,j,c) + bc(i,j,c)/2)*V_rea
+      l.l(i,t))
+ 678              - 1/ratio(i,j,c)
+ 679                  * (  (g(i,j,c)*V_imag.l(j,t) + b(i,j,c)*V_real.l(j,t))*cos
+      (angle(i,j,c))
+ 680                     + (g(i,j,c)*V_real.l(j,t) - b(i,j,c)*V_imag.l(j,t))*sin
+      (angle(i,j,c)));
+ 681   
+ 682  V_LineIq.l(j,i,c,t)$branchstatus(i,j,c,t) = (g(i,j,c)*V_imag.l(j,t) + (b(i
+      ,j,c) + bc(i,j,c)/2)*V_real.l(j,t))
+ 683              - 1/ratio(i,j,c)
+ 684                  * (  (g(i,j,c)*V_imag.l(i,t) + b(i,j,c)*V_real.l(i,t))*cos
+      (-angle(i,j,c))
+ 685                     + (g(i,j,c)*V_real.l(i,t) - b(i,j,c)*V_imag.l(i,t))*sin
+      (-angle(i,j,c)));
+ 686   
+ 687  * Derived objective function
+ 688  V_pw_cost.l(gen,t) = max(0,smax((costptset)$((ord(costptset) < numcostpts(
+      gen)) and (costmodel(gen) eq 1)),
+ 689      ((costpts_y(gen,costptset+1) - costpts_y(gen,costptset))/
+ 690       (costpts_x(gen,costptset+1) - costpts_x(gen,costptset)))
+ 691        * (V_P.l(gen,t)*baseMVA - costpts_x(gen,costptset))
+ 692      + costpts_y(gen,costptset)*V_genstatus.l(gen,t)))
+ 693  ;
+ 694   
+ 695   
+ 696  V_objcost.l =
+ 698      + sum((gen,t),V_startup.l(gen,t)*startupcost(gen) + V_shutdown.l(gen,t
+      )*shutdowncost(gen))
+ 700  * Piecewise linear objective function
+ 701      + sum((gen,t)$(costmodel(gen) eq 1), V_pw_cost.l(gen,t))
+ 704  ;
+ 705   
+ 706  display rampup, rampdown, minuptime, mindowntime;
+ 707   
+ 708  *===== SECTION: MODEL OPTIONS AND SOLVE
+ 709  *---- Basic options
+ 711      solve uc_ac min V_objcost using minlp;
+ 713   
+ 714   
+ 715   
+ 716  *==== SECTION: Solution Analysis
+ 717  * See if model is solved
+ 718  parameter
+ 719      infeas "Number of infeasibilities from model solve";
+ 720   
+ 721  infeas = uc_ac.numInfes;
+ 722  display infeas;
+ 723   
+ 724  * Declaration needs to be made outside loop
+ 725  set
+ 726      lines_at_limit(i,j,c,t) "lines at their bound"
+ 727  ;
+ 728  parameters
+ 729      total_cost "Cost of objective function"
+ 730      LMP(bus,t) "Locational marginal price"
+ 731      LineSP(i,j,c,t) "Marginal price of active power on line (i,j,c)"
+ 732      shuntB(i,t)
+ 733  ;
+ 734   
+ 735  if(infeas eq 0,
+ 736  * Final Objective function value
+ 737      total_cost = V_objcost.l;
+ 738  * Status information
+ 739      status(gen,t) = V_genstatus.l(gen,t);
+ 740  * Generator real power solution
+ 741      Pg(gen,t) = V_P.l(gen,t);
+ 742  * Generator reactive power solution
+ 743      Qg(gen,t) = V_Q.l(gen,t);
+ 744  * Voltage magnitude solution
+ 745      Vm(bus,t)  = sqrt(sqr(V_real.l(bus,t)) + sqr(V_imag.l(bus,t)));
+ 746  * Voltage angle solution
+ 747      Va(bus,t)$(V_real.l(bus,t) > 0) = arctan(V_imag.l(bus,t)/V_real.l(bus,
+      t)) * 180/pi;
+ 748      Va(bus,t)$(V_real.l(bus,t) le 0) = arctan(V_imag.l(bus,t)/V_real.l(bus
+      ,t)) * 180/pi + 180;
+ 749  * Bus shunt solution
+ 750      shuntB(i,t) = sum(bus_s, V_shunt.l(i,bus_s,t)*Bswitched(i,bus_s));
+ 751  * Locational marginal price of bus at time t
+ 752      LMP(bus,t) = c_BalanceP.m(bus,t);
+ 753  * Marginal for active power on a line
+ 754      LineSP(i,j,c,t)$branchstatus(i,j,c,t) = c_I_Limit.m(i,j,c,t);
+ 755      LineSP(j,i,c,t)$branchstatus(i,j,c,t) = c_I_Limit.m(j,i,c,t);
+ 756   
+ 757  * Find which lines are at their limits
+ 758  lines_at_limit(i,j,c,t)$branchstatus(i,j,c,t) = yes$(abs(LineSP(i,j,c,t)) 
+      gt 1e-8);
+ 759  display lines_at_limit;
+ 760   
+ 761  *==== SECTION: Solution Save
+ 763   
+ 764  * END IF-loop if(infeas eq 0)
+ 765  );
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/28/21 13:44:15 Page 3
+Cost objective calculations for UC models
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  C:\Users\Jairo\Downloads\Prueba\models
+                                          \uc_iv.gms
+     2       64 BATINCLUDE     1      70  .C:\Users\Jairo\Downloads\Prueba\model
+                                           s\extract_data_uc.gms
+     3      122 GDXIN          2      58  .C:\Users\Jairo\Downloads\Prueba\Testc
+                                           ases_gdx\rts96_summer_wday.gdx
+     4      558 BATINCLUDE     1     287  .C:\Users\Jairo\Downloads\Prueba\model
+                                           s\cost_objective_uc.gms
+
+
+COMPILATION TIME     =        0.000 SECONDS      4 MB  24.9.2 r64480 WEX-WEI
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/28/21 13:44:15 Page 4
+Cost objective calculations for UC models
+E x e c u t i o n
+
+
+----    706 PARAMETER rampup  increasing ramp rate of generator
+
+1   180.000,    2   180.000,    3   120.000,    4   120.000,    5   180.000
+6   180.000,    7   120.000,    8   120.000,    9   420.000,    10  420.000
+11  420.000,    12  180.000,    13  180.000,    14  180.000,    16   60.000
+17   60.000,    18   60.000,    19   60.000,    20   60.000,    21  180.000
+22  180.000,    23  120.000,    24  120.000,    25 9990.000,    26 9990.000
+27 9990.000,    28 9990.000,    29 9990.000,    30 9990.000,    31  180.000
+32  180.000,    33  240.000,    34  180.000,    35  180.000,    36  120.000
+37  120.000,    38  180.000,    39  180.000,    40  120.000,    41  120.000
+42  420.000,    43  420.000,    44  420.000,    45  180.000,    46  180.000
+47  180.000,    49   60.000,    50   60.000,    51   60.000,    52   60.000
+53   60.000,    54  180.000,    55  180.000,    56 1200.000,    57 1200.000
+58 9990.000,    59 9990.000,    60 9990.000,    61 9990.000,    62 9990.000
+63 9990.000,    64  180.000,    65  180.000,    66  240.000,    67  180.000
+68  180.000,    69  120.000,    70  120.000,    71  180.000,    72  180.000
+73  120.000,    74  120.000,    75  420.000,    76  420.000,    77  420.000
+78  180.000,    79  180.000,    80  180.000,    82   60.000,    83   60.000
+84   60.000,    85   60.000,    86   60.000,    87  180.000,    88  180.000
+89 1200.000,    90 1200.000,    91 9990.000,    92 9990.000,    93 9990.000
+94 9990.000,    95 9990.000,    96 9990.000,    97  180.000,    98  180.000
+99  240.000
+
+
+----    706 PARAMETER rampdown  decreasing ramp rate of generator
+
+1   180.000,    2   180.000,    3   120.000,    4   120.000,    5   180.000
+6   180.000,    7   120.000,    8   120.000,    9   420.000,    10  420.000
+11  420.000,    12  180.000,    13  180.000,    14  180.000,    16   60.000
+17   60.000,    18   60.000,    19   60.000,    20   60.000,    21  180.000
+22  180.000,    23  120.000,    24  120.000,    25 9990.000,    26 9990.000
+27 9990.000,    28 9990.000,    29 9990.000,    30 9990.000,    31  180.000
+32  180.000,    33  240.000,    34  180.000,    35  180.000,    36  120.000
+37  120.000,    38  180.000,    39  180.000,    40  120.000,    41  120.000
+42  420.000,    43  420.000,    44  420.000,    45  180.000,    46  180.000
+47  180.000,    49   60.000,    50   60.000,    51   60.000,    52   60.000
+53   60.000,    54  180.000,    55  180.000,    56 1200.000,    57 1200.000
+58 9990.000,    59 9990.000,    60 9990.000,    61 9990.000,    62 9990.000
+63 9990.000,    64  180.000,    65  180.000,    66  240.000,    67  180.000
+68  180.000,    69  120.000,    70  120.000,    71  180.000,    72  180.000
+73  120.000,    74  120.000,    75  420.000,    76  420.000,    77  420.000
+78  180.000,    79  180.000,    80  180.000,    82   60.000,    83   60.000
+84   60.000,    85   60.000,    86   60.000,    87  180.000,    88  180.000
+89 1200.000,    90 1200.000,    91 9990.000,    92 9990.000,    93 9990.000
+94 9990.000,    95 9990.000,    96 9990.000,    97  180.000,    98  180.000
+99  240.000
+
+
+----    706 PARAMETER minuptime  generator minimum time to remain on
+
+1  1.000,    2  1.000,    3  1.000,    4  1.000,    5  1.000,    6  1.000
+7  1.000,    8  1.000,    9  1.000,    10 1.000,    11 1.000,    12 1.000
+13 1.000,    14 1.000,    15 1.000,    16 1.000,    17 1.000,    18 1.000
+19 1.000,    20 1.000,    21 1.000,    22 1.000,    23 1.000,    24 1.000
+25 1.000,    26 1.000,    27 1.000,    28 1.000,    29 1.000,    30 1.000
+31 1.000,    32 1.000,    33 1.000,    34 1.000,    35 1.000,    36 1.000
+37 1.000,    38 1.000,    39 1.000,    40 1.000,    41 1.000,    42 1.000
+43 1.000,    44 1.000,    45 1.000,    46 1.000,    47 1.000,    48 1.000
+49 1.000,    50 1.000,    51 1.000,    52 1.000,    53 1.000,    54 1.000
+55 1.000,    56 1.000,    57 1.000,    58 1.000,    59 1.000,    60 1.000
+61 1.000,    62 1.000,    63 1.000,    64 1.000,    65 1.000,    66 1.000
+67 1.000,    68 1.000,    69 1.000,    70 1.000,    71 1.000,    72 1.000
+73 1.000,    74 1.000,    75 1.000,    76 1.000,    77 1.000,    78 1.000
+79 1.000,    80 1.000,    81 1.000,    82 1.000,    83 1.000,    84 1.000
+85 1.000,    86 1.000,    87 1.000,    88 1.000,    89 1.000,    90 1.000
+91 1.000,    92 1.000,    93 1.000,    94 1.000,    95 1.000,    96 1.000
+97 1.000,    98 1.000,    99 1.000
+
+
+----    706 PARAMETER mindowntime  generator minimum time to remain off
+
+1  1.000,    2  1.000,    3  1.000,    4  1.000,    5  1.000,    6  1.000
+7  1.000,    8  1.000,    9  1.000,    10 1.000,    11 1.000,    12 1.000
+13 1.000,    14 1.000,    15 1.000,    16 1.000,    17 1.000,    18 1.000
+19 1.000,    20 1.000,    21 1.000,    22 1.000,    23 1.000,    24 1.000
+25 1.000,    26 1.000,    27 1.000,    28 1.000,    29 1.000,    30 1.000
+31 1.000,    32 1.000,    33 1.000,    34 1.000,    35 1.000,    36 1.000
+37 1.000,    38 1.000,    39 1.000,    40 1.000,    41 1.000,    42 1.000
+43 1.000,    44 1.000,    45 1.000,    46 1.000,    47 1.000,    48 1.000
+49 1.000,    50 1.000,    51 1.000,    52 1.000,    53 1.000,    54 1.000
+55 1.000,    56 1.000,    57 1.000,    58 1.000,    59 1.000,    60 1.000
+61 1.000,    62 1.000,    63 1.000,    64 1.000,    65 1.000,    66 1.000
+67 1.000,    68 1.000,    69 1.000,    70 1.000,    71 1.000,    72 1.000
+73 1.000,    74 1.000,    75 1.000,    76 1.000,    77 1.000,    78 1.000
+79 1.000,    80 1.000,    81 1.000,    82 1.000,    83 1.000,    84 1.000
+85 1.000,    86 1.000,    87 1.000,    88 1.000,    89 1.000,    90 1.000
+91 1.000,    92 1.000,    93 1.000,    94 1.000,    95 1.000,    96 1.000
+97 1.000,    98 1.000,    99 1.000
+
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/28/21 13:44:15 Page 5
+Cost objective calculations for UC models
+Equation Listing    SOLVE uc_ac Using MINLP From line 711
+
+
+---- c_I_limit  =L=  Limit apparent current on a line
+
+                NONE
+
+
+---- c_V_limit_lo  =G=  Limit voltage magnitude on a line
+
+c_V_limit_lo(101,t1)..  (0)*V_real(101,t1) + (0)*V_imag(101,t1) =G= 0.81 ;
+     
+      (LHS = 0, INFES = 0.81 ****)
+     
+c_V_limit_lo(102,t1)..  (0)*V_real(102,t1) + (0)*V_imag(102,t1) =G= 0.81 ;
+     
+      (LHS = 0, INFES = 0.81 ****)
+     
+c_V_limit_lo(103,t1)..  (0)*V_real(103,t1) + (0)*V_imag(103,t1) =G= 0.81 ;
+     
+      (LHS = 0, INFES = 0.81 ****)
+     
+REMAINING 70 ENTRIES SKIPPED
+
+
+---- c_V_limit_up  =L=  Limit voltage magnitude on a line
+
+c_V_limit_up(101,t1)..  (0)*V_real(101,t1) + (0)*V_imag(101,t1) =L= 1.21 ;
+     
+      (LHS = 0)
+     
+c_V_limit_up(102,t1)..  (0)*V_real(102,t1) + (0)*V_imag(102,t1) =L= 1.21 ;
+     
+      (LHS = 0)
+     
+c_V_limit_up(103,t1)..  (0)*V_real(103,t1) + (0)*V_imag(103,t1) =L= 1.21 ;
+     
+      (LHS = 0)
+     
+REMAINING 70 ENTRIES SKIPPED
+
+
+---- c_LineIrij  =E=  Real power flowing from bus i into bus j along line c
+
+                NONE
+
+
+---- c_LineIrji  =E=  Real power flowing from bus j into bus i along line c
+
+                NONE
+
+
+---- c_LineIqij  =E=  Reactive power flowing from bus i into bus j along line c
+
+                NONE
+
+
+---- c_LineIqji  =E=  Reactive power flowing from bus j into bus i along line c
+
+                NONE
+
+
+---- c_BalanceP  =E=  Balance of real power for bus at time t
+
+                NONE
+
+
+---- c_BalanceQ  =E=  Balance of reactive power for bus at time t
+
+c_BalanceQ(106,t1)..  (0)*V_real(106,t1) + (0)*V_imag(106,t1) =E= 0 ; (LHS = 0)
+     
+c_BalanceQ(206,t1)..  (0)*V_real(206,t1) + (0)*V_imag(206,t1) =E= 0 ; (LHS = 0)
+     
+c_BalanceQ(306,t1)..  (0)*V_real(306,t1) + (0)*V_imag(306,t1) =E= 0 ; (LHS = 0)
+     
+
+---- c_GenStatusMin  =L=  Generator minimum operating capacity
+
+c_GenStatusMin(1,t1)..  - V_P(1,t1) + 0.158*V_genstatus(1,t1) =L= 0 ; (LHS = 0)
+     
+c_GenStatusMin(2,t1)..  - V_P(2,t1) + 0.158*V_genstatus(2,t1) =L= 0 ; (LHS = 0)
+     
+c_GenStatusMin(3,t1)..  - V_P(3,t1) + 0.152*V_genstatus(3,t1) =L= 0 ; (LHS = 0)
+     
+REMAINING 96 ENTRIES SKIPPED
+
+
+---- c_GenStatusMax  =L=  Generator maximum operating capacity
+
+c_GenStatusMax(1,t1)..  V_P(1,t1) - 0.2*V_genstatus(1,t1) =L= 0 ; (LHS = 0)
+     
+c_GenStatusMax(2,t1)..  V_P(2,t1) - 0.2*V_genstatus(2,t1) =L= 0 ; (LHS = 0)
+     
+c_GenStatusMax(3,t1)..  V_P(3,t1) - 0.76*V_genstatus(3,t1) =L= 0 ; (LHS = 0)
+     
+REMAINING 96 ENTRIES SKIPPED
+
+
+---- c_GenStatusQMin  =L=  Generator minimum operating capacity
+
+c_GenStatusQMin(1,t1)..  - V_Q(1,t1) =L= 0 ; (LHS = 0)
+     
+c_GenStatusQMin(2,t1)..  - V_Q(2,t1) =L= 0 ; (LHS = 0)
+     
+c_GenStatusQMin(3,t1)..  - V_Q(3,t1) - 0.25*V_genstatus(3,t1) =L= 0 ; (LHS = 0)
+     
+REMAINING 96 ENTRIES SKIPPED
+
+
+---- c_GenStatusQMax  =L=  Generator maximum operating capacity
+
+c_GenStatusQMax(1,t1)..  V_Q(1,t1) - 0.1*V_genstatus(1,t1) =L= 0 ; (LHS = 0)
+     
+c_GenStatusQMax(2,t1)..  V_Q(2,t1) - 0.1*V_genstatus(2,t1) =L= 0 ; (LHS = 0)
+     
+c_GenStatusQMax(3,t1)..  V_Q(3,t1) - 0.3*V_genstatus(3,t1) =L= 0 ; (LHS = 0)
+     
+REMAINING 96 ENTRIES SKIPPED
+
+
+---- c_StartupShutdown  =E=  Relationship of binary (start,shut,status) variable
+                             s
+
+c_StartupShutdown(1,t1)..  - V_genstatus(1,t1) + V_startup(1,t1)
+     
+      - V_shutdown(1,t1) =E= 0 ; (LHS = 0)
+     
+c_StartupShutdown(2,t1)..  - V_genstatus(2,t1) + V_startup(2,t1)
+     
+      - V_shutdown(2,t1) =E= 0 ; (LHS = 0)
+     
+c_StartupShutdown(3,t1)..  - V_genstatus(3,t1) + V_startup(3,t1)
+     
+      - V_shutdown(3,t1) =E= 0 ; (LHS = 0)
+     
+REMAINING 96 ENTRIES SKIPPED
+
+
+---- c_MinUptime  =G=  Minimum generator run time
+
+c_MinUptime(1,t1)..  V_genstatus(1,t1) - V_startup(1,t1) =G= 0 ; (LHS = 0)
+     
+c_MinUptime(2,t1)..  V_genstatus(2,t1) - V_startup(2,t1) =G= 0 ; (LHS = 0)
+     
+c_MinUptime(3,t1)..  V_genstatus(3,t1) - V_startup(3,t1) =G= 0 ; (LHS = 0)
+     
+REMAINING 96 ENTRIES SKIPPED
+
+
+---- c_MinDowntime  =L=  Minimum generator down time
+
+c_MinDowntime(1,t1)..  V_genstatus(1,t1) + V_shutdown(1,t1) =L= 1 ; (LHS = 0)
+     
+c_MinDowntime(2,t1)..  V_genstatus(2,t1) + V_shutdown(2,t1) =L= 1 ; (LHS = 0)
+     
+c_MinDowntime(3,t1)..  V_genstatus(3,t1) + V_shutdown(3,t1) =L= 1 ; (LHS = 0)
+     
+REMAINING 96 ENTRIES SKIPPED
+
+
+---- c_RampUp  =L=  Generator ramp up constraints
+
+                NONE
+
+
+---- c_RampDown  =L=  Generator ramp down constraints
+
+                NONE
+
+
+---- c_pw_cost  =G=  
+
+c_pw_cost(1,t1,1)..  - 17350*V_P(1,t1) - 4117.2*V_genstatus(1,t1)
+     
+      + V_pw_cost(1,t1) =G= -2741.3 ; (LHS = 0)
+     
+c_pw_cost(1,t1,2)..  - 21442.1052631579*V_P(1,t1) - 4151.9*V_genstatus(1,t1)
+     
+      + V_pw_cost(1,t1) =G= -3430.73684210526 ; (LHS = 0)
+     
+c_pw_cost(1,t1,3)..  - 24900.0000000002*V_P(1,t1) - 4966.7*V_genstatus(1,t1)
+     
+      + V_pw_cost(1,t1) =G= -4930.20000000004 ; (LHS = 0)
+     
+REMAINING 294 ENTRIES SKIPPED
+
+
+---- c_obj  =E=  
+
+c_obj..  - 86.5*V_startup(1,t1) - 86.5*V_startup(2,t1) - 357.26*V_startup(3,t1)
+     
+      - 357.26*V_startup(4,t1) - 86.5*V_startup(5,t1) - 86.5*V_startup(6,t1)
+     
+      - 357.26*V_startup(7,t1) - 357.26*V_startup(8,t1) - 4324.9*V_startup(9,t1)
+     
+      - 4324.9*V_startup(10,t1) - 4324.9*V_startup(11,t1)
+     
+      - 7663.72*V_startup(12,t1) - 7663.72*V_startup(13,t1)
+     
+      - 7663.72*V_startup(14,t1) - 657.38*V_startup(16,t1)
+     
+      - 657.38*V_startup(17,t1) - 657.38*V_startup(18,t1)
+     
+      - 657.38*V_startup(19,t1) - 657.38*V_startup(20,t1)
+     
+      - 155.85*V_startup(21,t1) - 155.85*V_startup(22,t1)
+     
+      - 155.85*V_startup(31,t1) - 155.85*V_startup(32,t1)
+     
+      - 1147.91*V_startup(33,t1) - 86.5*V_startup(34,t1) - 86.5*V_startup(35,t1)
+     
+      - 357.26*V_startup(36,t1) - 357.26*V_startup(37,t1)
+     
+      - 86.5*V_startup(38,t1) - 86.5*V_startup(39,t1) - 357.26*V_startup(40,t1)
+     
+      - 357.26*V_startup(41,t1) - 4324.9*V_startup(42,t1)
+     
+      - 4324.9*V_startup(43,t1) - 4324.9*V_startup(44,t1)
+     
+      - 7663.72*V_startup(45,t1) - 7663.72*V_startup(46,t1)
+     
+      - 7663.72*V_startup(47,t1) - 657.38*V_startup(49,t1)
+     
+      - 657.38*V_startup(50,t1) - 657.38*V_startup(51,t1)
+     
+      - 657.38*V_startup(52,t1) - 657.38*V_startup(53,t1)
+     
+      - 155.85*V_startup(54,t1) - 155.85*V_startup(55,t1)
+     
+      - 155.85*V_startup(64,t1) - 155.85*V_startup(65,t1)
+     
+      - 1147.91*V_startup(66,t1) - 86.5*V_startup(67,t1) - 86.5*V_startup(68,t1)
+     
+      - 357.26*V_startup(69,t1) - 357.26*V_startup(70,t1)
+     
+      - 86.5*V_startup(71,t1) - 86.5*V_startup(72,t1) - 357.26*V_startup(73,t1)
+     
+      - 357.26*V_startup(74,t1) - 4324.9*V_startup(75,t1)
+     
+      - 4324.9*V_startup(76,t1) - 4324.9*V_startup(77,t1)
+     
+      - 7663.72*V_startup(78,t1) - 7663.72*V_startup(79,t1)
+     
+      - 7663.72*V_startup(80,t1) - 657.38*V_startup(82,t1)
+     
+      - 657.38*V_startup(83,t1) - 657.38*V_startup(84,t1)
+     
+      - 657.38*V_startup(85,t1) - 657.38*V_startup(86,t1)
+     
+      - 155.85*V_startup(87,t1) - 155.85*V_startup(88,t1)
+     
+      - 155.85*V_startup(97,t1) - 155.85*V_startup(98,t1)
+     
+      - 1147.91*V_startup(99,t1) - V_pw_cost(1,t1) - V_pw_cost(2,t1)
+     
+      - V_pw_cost(3,t1) - V_pw_cost(4,t1) - V_pw_cost(5,t1) - V_pw_cost(6,t1)
+     
+      - V_pw_cost(7,t1) - V_pw_cost(8,t1) - V_pw_cost(9,t1) - V_pw_cost(10,t1)
+     
+      - V_pw_cost(11,t1) - V_pw_cost(12,t1) - V_pw_cost(13,t1)
+     
+      - V_pw_cost(14,t1) - V_pw_cost(15,t1) - V_pw_cost(16,t1)
+     
+      - V_pw_cost(17,t1) - V_pw_cost(18,t1) - V_pw_cost(19,t1)
+     
+      - V_pw_cost(20,t1) - V_pw_cost(21,t1) - V_pw_cost(22,t1)
+     
+      - V_pw_cost(23,t1) - V_pw_cost(24,t1) - V_pw_cost(25,t1)
+     
+      - V_pw_cost(26,t1) - V_pw_cost(27,t1) - V_pw_cost(28,t1)
+     
+      - V_pw_cost(29,t1) - V_pw_cost(30,t1) - V_pw_cost(31,t1)
+     
+      - V_pw_cost(32,t1) - V_pw_cost(33,t1) - V_pw_cost(34,t1)
+     
+      - V_pw_cost(35,t1) - V_pw_cost(36,t1) - V_pw_cost(37,t1)
+     
+      - V_pw_cost(38,t1) - V_pw_cost(39,t1) - V_pw_cost(40,t1)
+     
+      - V_pw_cost(41,t1) - V_pw_cost(42,t1) - V_pw_cost(43,t1)
+     
+      - V_pw_cost(44,t1) - V_pw_cost(45,t1) - V_pw_cost(46,t1)
+     
+      - V_pw_cost(47,t1) - V_pw_cost(48,t1) - V_pw_cost(49,t1)
+     
+      - V_pw_cost(50,t1) - V_pw_cost(51,t1) - V_pw_cost(52,t1)
+     
+      - V_pw_cost(53,t1) - V_pw_cost(54,t1) - V_pw_cost(55,t1)
+     
+      - V_pw_cost(56,t1) - V_pw_cost(57,t1) - V_pw_cost(58,t1)
+     
+      - V_pw_cost(59,t1) - V_pw_cost(60,t1) - V_pw_cost(61,t1)
+     
+      - V_pw_cost(62,t1) - V_pw_cost(63,t1) - V_pw_cost(64,t1)
+     
+      - V_pw_cost(65,t1) - V_pw_cost(66,t1) - V_pw_cost(67,t1)
+     
+      - V_pw_cost(68,t1) - V_pw_cost(69,t1) - V_pw_cost(70,t1)
+     
+      - V_pw_cost(71,t1) - V_pw_cost(72,t1) - V_pw_cost(73,t1)
+     
+      - V_pw_cost(74,t1) - V_pw_cost(75,t1) - V_pw_cost(76,t1)
+     
+      - V_pw_cost(77,t1) - V_pw_cost(78,t1) - V_pw_cost(79,t1)
+     
+      - V_pw_cost(80,t1) - V_pw_cost(81,t1) - V_pw_cost(82,t1)
+     
+      - V_pw_cost(83,t1) - V_pw_cost(84,t1) - V_pw_cost(85,t1)
+     
+      - V_pw_cost(86,t1) - V_pw_cost(87,t1) - V_pw_cost(88,t1)
+     
+      - V_pw_cost(89,t1) - V_pw_cost(90,t1) - V_pw_cost(91,t1)
+     
+      - V_pw_cost(92,t1) - V_pw_cost(93,t1) - V_pw_cost(94,t1)
+     
+      - V_pw_cost(95,t1) - V_pw_cost(96,t1) - V_pw_cost(97,t1)
+     
+      - V_pw_cost(98,t1) - V_pw_cost(99,t1) + V_objcost =E= 0 ; (LHS = 0)
+     
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/28/21 13:44:15 Page 6
+Cost objective calculations for UC models
+Column Listing      SOLVE uc_ac Using MINLP From line 711
+
+
+---- V_P  Real power generation of generator at time t
+
+V_P(1,t1)
+                (.LO, .L, .UP, .M = 0, 0, 0.2, 0)
+       -1       c_GenStatusMin(1,t1)
+        1       c_GenStatusMax(1,t1)
+   -17350       c_pw_cost(1,t1,1)
+   -21442.1053  c_pw_cost(1,t1,2)
+   -24900       c_pw_cost(1,t1,3)
+
+V_P(2,t1)
+                (.LO, .L, .UP, .M = 0, 0, 0.2, 0)
+       -1       c_GenStatusMin(2,t1)
+        1       c_GenStatusMax(2,t1)
+   -17350       c_pw_cost(2,t1,1)
+   -21442.1053  c_pw_cost(2,t1,2)
+   -24900       c_pw_cost(2,t1,3)
+
+V_P(3,t1)
+                (.LO, .L, .UP, .M = 0, 0, 0.76, 0)
+       -1       c_GenStatusMin(3,t1)
+        1       c_GenStatusMax(3,t1)
+     -578.9474  c_pw_cost(3,t1,1)
+     -639.4737  c_pw_cost(3,t1,2)
+     -743.4211  c_pw_cost(3,t1,3)
+
+REMAINING 96 ENTRIES SKIPPED
+
+---- V_Q  Reactive power generation of generator at time t
+
+V_Q(1,t1)
+                (.LO, .L, .UP, .M = 0, 0, 0.1, 0)
+       -1       c_GenStatusQMin(1,t1)
+        1       c_GenStatusQMax(1,t1)
+
+V_Q(2,t1)
+                (.LO, .L, .UP, .M = 0, 0, 0.1, 0)
+       -1       c_GenStatusQMin(2,t1)
+        1       c_GenStatusQMax(2,t1)
+
+V_Q(3,t1)
+                (.LO, .L, .UP, .M = -0.25, 0, 0.3, 0)
+       -1       c_GenStatusQMin(3,t1)
+        1       c_GenStatusQMax(3,t1)
+
+REMAINING 96 ENTRIES SKIPPED
+
+---- V_real  Real part of bus voltage
+
+V_real(101,t1)
+                (.LO, .L, .UP, .M = -1.1, 0, 1.1, 0)
+       (0)      c_V_limit_lo(101,t1)
+       (0)      c_V_limit_up(101,t1)
+
+V_real(102,t1)
+                (.LO, .L, .UP, .M = -1.1, 0, 1.1, 0)
+       (0)      c_V_limit_lo(102,t1)
+       (0)      c_V_limit_up(102,t1)
+
+V_real(103,t1)
+                (.LO, .L, .UP, .M = -1.1, 0, 1.1, 0)
+       (0)      c_V_limit_lo(103,t1)
+       (0)      c_V_limit_up(103,t1)
+
+REMAINING 70 ENTRIES SKIPPED
+
+---- V_imag  Imaginary part of bus voltage
+
+V_imag(101,t1)
+                (.LO, .L, .UP, .M = -1.1, 0, 1.1, 0)
+       (0)      c_V_limit_lo(101,t1)
+       (0)      c_V_limit_up(101,t1)
+
+V_imag(102,t1)
+                (.LO, .L, .UP, .M = -1.1, 0, 1.1, 0)
+       (0)      c_V_limit_lo(102,t1)
+       (0)      c_V_limit_up(102,t1)
+
+V_imag(103,t1)
+                (.LO, .L, .UP, .M = -1.1, 0, 1.1, 0)
+       (0)      c_V_limit_lo(103,t1)
+       (0)      c_V_limit_up(103,t1)
+
+REMAINING 70 ENTRIES SKIPPED
+
+---- V_genstatus  Generator commitment status for time t
+
+V_genstatus(1,t1)
+                (.LO, .L, .UP, .M = 0, 0, 0, 0)
+        0.158   c_GenStatusMin(1,t1)
+       -0.2     c_GenStatusMax(1,t1)
+       -0.1     c_GenStatusQMax(1,t1)
+       -1       c_StartupShutdown(1,t1)
+        1       c_MinUptime(1,t1)
+        1       c_MinDowntime(1,t1)
+    -4117.2     c_pw_cost(1,t1,1)
+    -4151.9     c_pw_cost(1,t1,2)
+    -4966.7     c_pw_cost(1,t1,3)
+
+V_genstatus(2,t1)
+                (.LO, .L, .UP, .M = 0, 0, 0, 0)
+        0.158   c_GenStatusMin(2,t1)
+       -0.2     c_GenStatusMax(2,t1)
+       -0.1     c_GenStatusQMax(2,t1)
+       -1       c_StartupShutdown(2,t1)
+        1       c_MinUptime(2,t1)
+        1       c_MinDowntime(2,t1)
+    -4117.2     c_pw_cost(2,t1,1)
+    -4151.9     c_pw_cost(2,t1,2)
+    -4966.7     c_pw_cost(2,t1,3)
+
+V_genstatus(3,t1)
+                (.LO, .L, .UP, .M = 0, 0, 0, 0)
+        0.152   c_GenStatusMin(3,t1)
+       -0.76    c_GenStatusMax(3,t1)
+       -0.25    c_GenStatusQMin(3,t1)
+       -0.3     c_GenStatusQMax(3,t1)
+       -1       c_StartupShutdown(3,t1)
+        1       c_MinUptime(3,t1)
+        1       c_MinDowntime(3,t1)
+     -155.9     c_pw_cost(3,t1,1)
+     -287.9     c_pw_cost(3,t1,2)
+     -433.7     c_pw_cost(3,t1,3)
+
+REMAINING 96 ENTRIES SKIPPED
+
+---- V_startup  (0,1) startup status of generator at time t
+
+V_startup(1,t1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       c_StartupShutdown(1,t1)
+       -1       c_MinUptime(1,t1)
+      -86.5     c_obj
+
+V_startup(2,t1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       c_StartupShutdown(2,t1)
+       -1       c_MinUptime(2,t1)
+      -86.5     c_obj
+
+V_startup(3,t1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       c_StartupShutdown(3,t1)
+       -1       c_MinUptime(3,t1)
+     -357.26    c_obj
+
+REMAINING 96 ENTRIES SKIPPED
+
+---- V_shutdown  (0,1) shutdown status of generator at time t
+
+V_shutdown(1,t1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       c_StartupShutdown(1,t1)
+        1       c_MinDowntime(1,t1)
+
+V_shutdown(2,t1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       c_StartupShutdown(2,t1)
+        1       c_MinDowntime(2,t1)
+
+V_shutdown(3,t1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       c_StartupShutdown(3,t1)
+        1       c_MinDowntime(3,t1)
+
+REMAINING 96 ENTRIES SKIPPED
+
+---- V_pw_cost  Generator piecewise cost
+
+V_pw_cost(1,t1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       c_pw_cost(1,t1,1)
+        1       c_pw_cost(1,t1,2)
+        1       c_pw_cost(1,t1,3)
+       -1       c_obj
+
+V_pw_cost(2,t1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       c_pw_cost(2,t1,1)
+        1       c_pw_cost(2,t1,2)
+        1       c_pw_cost(2,t1,3)
+       -1       c_obj
+
+V_pw_cost(3,t1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       c_pw_cost(3,t1,1)
+        1       c_pw_cost(3,t1,2)
+        1       c_pw_cost(3,t1,3)
+       -1       c_obj
+
+REMAINING 96 ENTRIES SKIPPED
+
+---- V_objcost  Total cost of objective function
+
+V_objcost
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       c_obj
+
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/28/21 13:44:15 Page 7
+Cost objective calculations for UC models
+Model Statistics    SOLVE uc_ac Using MINLP From line 711
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS          20     SINGLE EQUATIONS        1,140
+BLOCKS OF VARIABLES           9     SINGLE VARIABLES          741
+NON ZERO ELEMENTS         2,651     NON LINEAR N-Z            298
+DERIVATIVE POOL              20     CONSTANT POOL              17
+CODE LENGTH               1,046
+
+
+GENERATION TIME      =        0.015 SECONDS      5 MB  24.9.2 r64480 WEX-WEI
+
+
+EXECUTION TIME       =        0.015 SECONDS      5 MB  24.9.2 r64480 WEX-WEI
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/28/21 13:44:15 Page 8
+Cost objective calculations for UC models
+Solution Report     SOLVE uc_ac Using MINLP From line 711
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   uc_ac               OBJECTIVE  V_objcost
+     TYPE    MINLP               DIRECTION  MINIMIZE
+     SOLVER  SCIP                FROM LINE  711
+
+**** SOLVER STATUS     1 Normal Completion         
+**** MODEL STATUS      19 Infeasible - No Solution 
+**** OBJECTIVE VALUE               NA
+
+ RESOURCE USAGE, LIMIT          0.000      1000.000
+ ITERATION COUNT, LIMIT         0    2000000000
+ EVALUATION ERRORS              0             0
+
+SCIP             24.9.2 r64480 Released Nov 14, 2017 WEI x86 64bit/MS Windows 
+
+No solution returned
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/28/21 13:44:15 Page 9
+Cost objective calculations for UC models
+E x e c u t i o n
+
+
+----    722 PARAMETER infeas               =           NA  Number of infeasibili
+                                                           ties from model solve
+
+
+EXECUTION TIME       =        0.000 SECONDS      4 MB  24.9.2 r64480 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G170728:0528AO-GEN
+      Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\Jairo\Downloads\Prueba\models\uc_iv.gms
+Output     C:\Users\Jairo\Desktop\Modelo\DataUtilities\uc_iv.lst

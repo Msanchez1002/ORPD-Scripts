@@ -1,0 +1,32 @@
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 03/04/21 12:01:23 Page 1
+"Power System GDX data file maker"
+C o m p i l a t i o n
+
+
+   2   
+   3  $abort "No input file selected..."
+****       $343
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 03/04/21 12:01:23 Page 2
+"Power System GDX data file maker"
+Error Messages
+
+
+343  Abort triggered by above statement
+
+**** 1 ERROR(S)   0 WARNING(S)
+
+
+COMPILATION TIME     =        0.000 SECONDS      2 MB  24.9.2 r64480 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G170728:0528AO-GEN
+      Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\Jairo\Downloads\Prueba\DataUtilities\raw2gdx.gms
+Output     C:\Users\Jairo\Desktop\Modelo\DataUtilities\raw2gdx.lst
+
+**** USER ERROR(S) ENCOUNTERED

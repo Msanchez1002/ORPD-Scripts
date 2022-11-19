@@ -1,0 +1,235 @@
+
+--- Job uc_polar_reactive_p5.gms Start 04/05/21 09:50:54 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- uc_polar_reactive_p5.gms(69) 2 Mb
+--- .extract_data_uc.gms(58) 3 Mb
+--- GDXin=C:\Users\Jairo\Downloads\Testcases_solution\rts96_spring_wday_AC_UC_solution.gdx
+--- .extract_data_uc.gms(320) 4 Mb
+--- uc_polar_reactive_p5.gms(312) 4 Mb
+--- .cost_objective_uc.gms(83) 4 Mb
+--- uc_polar_reactive_p5.gms(579) 4 Mb
+--- Starting execution: elapsed 0:00:00.016
+--- uc_polar_reactive_p5.gms(793) 15 Mb
+--- Generating MINLP model uc_ac
+--- uc_polar_reactive_p5.gms(807) 21 Mb
+---   15,253 rows  12,751 columns  56,665 non-zeroes
+---   129,468 nl-code  28,872 nl-non-zeroes
+---   234 discrete-columns
+--- uc_polar_reactive_p5.gms(807) 19 Mb
+--- Executing BONMIN: elapsed 0:00:00.122
+
+COIN-OR Bonmin   24.9.2 r64480 Released Nov 14, 2017 WEI x86 64bit/MS Windows 
+
+COIN-OR Bonmin (Bonmin Library 1.8)
+written by P. Bonami.
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.12, running with linear solver mumps.
+
+Number of nonzeros in equality constraint Jacobian...:    36384
+Number of nonzeros in inequality constraint Jacobian.:     8724
+Number of nonzeros in Lagrangian Hessian.............:     8628
+
+Total number of variables............................:     9138
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:     5394
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:     7512
+Total number of inequality constraints...............:     7740
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:     7740
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 1.3506277e+000 1.46e-001 6.67e-001   0.0 0.00e+000    -  0.00e+000 0.00e+000   0
+   8 1.3506277e+000 6.33e-010 3.68e-002 -11.0 7.55e-006    -  9.93e-001 9.93e-001h  1
+  14 1.3506277e+000 4.92e-014 5.44e-016 -11.0 7.45e-009    -  1.00e+000 1.00e+000h  1
+
+Number of Iterations....: 14
+
+                                   (scaled)                 (unscaled)
+Objective...............:  1.3506276564528059e+000   1.3506276564528059e+000
+Dual infeasibility......:  5.4391905924352789e-016   5.4391905924352789e-016
+Constraint violation....:  4.0535648433067040e-014   4.9162063309182713e-014
+Complementarity.........:  1.0000012561072039e-011   1.0000012561072039e-011
+Overall NLP error.......:  1.0000012561072039e-011   1.0000012561072039e-011
+
+
+Number of objective function evaluations             = 15
+Number of objective gradient evaluations             = 15
+Number of equality constraint evaluations            = 15
+Number of inequality constraint evaluations          = 15
+Number of equality constraint Jacobian evaluations   = 15
+Number of inequality constraint Jacobian evaluations = 15
+Number of Lagrangian Hessian evaluations             = 14
+Total CPU secs in IPOPT (w/o function evaluations)   =      1.072
+Total CPU secs in NLP function evaluations           =      0.236
+
+EXIT: Optimal Solution Found.
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 1.3506277       14 1.308
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 1.3506277        6 0.672
+NLP0014I             2         OPT 1.3506277        5 0.584
+NLP0014I             3         OPT 1.3506277        5 0.587
+NLP0014I             4         OPT 1.3506277        5 0.576
+NLP0014I             5         OPT 1.3506277        7 0.721
+NLP0014I             6         OPT 1.3506277        6 0.655
+NLP0014I             7         OPT 1.3506277        6 0.659
+NLP0014I             8         OPT 1.3506277        5 0.629
+NLP0014I             9         OPT 1.3506277        5 0.673
+NLP0014I            10         OPT 1.3506277        7 0.909
+NLP0014I            11         OPT 1.3506277        8 0.795
+NLP0014I            12         OPT 1.3506277        8 0.874
+NLP0014I            13         OPT 1.3506277        9 0.852
+NLP0014I            14         OPT 1.3506277        7 0.775
+NLP0014I            15         OPT 1.3506277        7 0.736
+NLP0014I            16         OPT 1.3506277        8 0.9
+NLP0014I            17         OPT 1.3506277        8 0.891
+NLP0014I            18         OPT 1.3506277        8 0.92
+NLP0014I            19         OPT 1.3506277        8 0.978
+NLP0014I            20         OPT 1.3506277        8 0.949
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I            21         OPT 1.3506277        9 1.387
+NLP0014I            22         OPT 1.3506277        9 1.344
+NLP0014I            23         OPT 1.3506277        9 1.035
+NLP0014I            24         OPT 1.3506277        9 1.064
+NLP0014I            25         OPT 1.3506277        9 1.22
+NLP0014I            26         OPT 1.3506277        9 1.136
+NLP0014I            27         OPT 1.3506277        9 1.046
+NLP0014I            28         OPT 1.3506277        9 1.029
+NLP0014I            29         OPT 1.3506277        9 1.055
+NLP0014I            30         OPT 1.3506277        9 1.035
+NLP0014I            31         OPT 1.3506277        9 1.103
+NLP0014I            32         OPT 1.3506277        9 1.168
+NLP0014I            33         OPT 1.3506277        9 1.498
+NLP0014I            34         OPT 1.3506277        9 1.371
+NLP0014I            35         OPT 1.3506277        9 1.111
+NLP0014I            36         OPT 1.3506277        9 1
+NLP0014I            37         OPT 1.3506277        9 1.001
+NLP0014I            38         OPT 1.3506277        9 1.005
+NLP0014I            39         OPT 1.3506277        9 1.066
+NLP0014I            40         OPT 1.3506277        9 1.098
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I            41         OPT 1.3506277        9 1.176
+NLP0014I            42         OPT 1.3506277        9 1.112
+NLP0014I            43         OPT 1.3506277        9 1.079
+NLP0014I            44         OPT 1.3506277        9 1.044
+NLP0014I            45         OPT 1.3506277        9 1.262
+NLP0014I            46         OPT 1.3506277        9 1.272
+NLP0014I            47         OPT 1.3506277        9 1.176
+NLP0014I            48         OPT 1.3506277        9 1.092
+NLP0014I            49         OPT 1.3506277        9 1.147
+NLP0014I            50         OPT 1.3506277        9 1.311
+NLP0014I            51         OPT 1.3506277        9 1.233
+NLP0014I            52         OPT 1.3506277        9 1.414
+NLP0014I            53         OPT 1.3506277        9 1.079
+NLP0014I            54         OPT 1.3506277       10 1.127
+NLP0014I            55         OPT 1.3506277       10 1.217
+NLP0014I            56         OPT 1.3506277       10 1.148
+NLP0014I            57         OPT 1.3506277       10 1.182
+NLP0014I            58         OPT 1.3506277       10 1.08
+NLP0014I            59         OPT 1.3506277       10 1.106
+NLP0014I            60         OPT 1.3506277       10 1.224
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I            61         OPT 1.3506277       10 1.109
+NLP0014I            62         OPT 1.3506277       10 1.102
+NLP0014I            63         OPT 1.3506277       10 1.199
+NLP0014I            64         OPT 1.3506277       10 1.161
+NLP0014I            65         OPT 1.3506277       10 1.11
+NLP0014I            66         OPT 1.3506277       10 1.273
+NLP0014I            67         OPT 1.3506277       10 1.121
+NLP0014I            68         OPT 1.3506277       10 1.08
+NLP0014I            69         OPT 1.3506277       10 1.103
+NLP0014I            70         OPT 1.3506277       10 1.098
+NLP0014I            71         OPT 1.3506277       10 1.062
+NLP0014I            72         OPT 1.3506277       10 1.034
+NLP0014I            73         OPT 1.3506277       10 1.055
+NLP0014I            74         OPT 1.3506277       12 1.364
+NLP0014I            75         OPT 1.3506277       10 1.082
+NLP0014I            76         OPT 1.3506277       10 1.074
+NLP0014I            77         OPT 1.3506277       10 1.083
+NLP0014I            78         OPT 1.3506277       10 1.084
+NLP0014I            79         OPT 1.3506277       10 1.05
+NLP0014I            80         OPT 1.3506277       10 1.099
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I            81         OPT 1.3506277       10 1.121
+NLP0014I            82         OPT 1.3506277       10 1.308
+NLP0014I            83         OPT 1.3506277       10 1.15
+NLP0014I            84         OPT 1.3506277       10 1.053
+NLP0014I            85         OPT 1.3506277       10 1.138
+NLP0014I            86         OPT 1.3506277       10 1.159
+NLP0014I            87         OPT 1.3506277       10 1.108
+NLP0014I            88         OPT 1.3506277       11 1.139
+NLP0014I            89         OPT 1.3506277       11 1.157
+NLP0014I            90         OPT 1.3506277       11 1.071
+NLP0014I            91         OPT 1.3506277       11 1.095
+NLP0014I            92         OPT 1.3506277       11 1.014
+NLP0014I            93         OPT 1.3506277       10 1.021
+NLP0014I            94         OPT 1.3506277       10 0.918
+NLP0014I            95         OPT 1.3506277        4 0.496
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 1.3506277        4 0.538
+Cbc0012I Integer solution of 1.3506277 found by DiveMIPFractional after 0 iterations and 0 nodes (104.16 seconds)
+Cbc0001I Search completed - best objective 1.350627656452806, took 0 iterations and 0 nodes (104.16 seconds)
+Cbc0035I Maximum depth 0, 0 variables fixed on reduced cost
+
+Bonmin finished. Found feasible solution. Objective function value = 1.35063.
+Resolve with fixed discrete variables to get dual values.
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 1.3506277        4 0.641
+
+Best solution:   1.350628e+000   (0 nodes, 105.484 seconds)
+
+Best possible:   1.350628e+000   (only reliable for convex models)
+Absolute gap:    0.000000e+000   (absolute tolerance optca: 0)
+Relative gap:    0.000000e+000   (relative tolerance optcr: 0.1)
+--- Restarting execution
+--- uc_polar_reactive_p5.gms(807) 14 Mb
+--- Reading solution for model uc_ac
+--- uc_polar_reactive_p5.gms(807) 15 Mb
+--- Executing after solve: elapsed 0:01:46.592
+--- uc_polar_reactive_p5.gms(842) 15 Mb
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\ALL_solution.gdx
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\temp_solution.gdx
+--- Job save_solution_uc.gms Start 04/05/21 09:52:40 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- save_solution_uc.gms(40) 3 Mb
+--- GDXin=C:\Users\Jairo\Downloads\Testcases_solution\rts96_spring_wday_AC_UC_solution.gdx
+--- save_solution_uc.gms(64) 5 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\models\temp_solution.gdx
+--- save_solution_uc.gms(123) 5 Mb
+--- Starting execution: elapsed 0:00:00.022
+--- save_solution_uc.gms(106) 6 Mb
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\ALLsol_solution.gdx
+--- save_solution_uc.gms(107) 6 Mb
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\rts96_spring_wday_AC_UC_solution_AC_UC_solution.gdxtemp
+--- save_solution_uc.gms(114) 6 Mb
+--- save_solution_uc.gms(116) 6 Mb
+*** Status: Normal completion
+--- Job save_solution_uc.gms Stop 04/05/21 09:52:41 elapsed 0:00:00.252
+*** Status: Normal completion
+--- Job uc_polar_reactive_p5.gms Stop 04/05/21 09:52:41 elapsed 0:01:46.964

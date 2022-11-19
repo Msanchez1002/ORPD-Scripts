@@ -1,0 +1,75 @@
+
+--- Job uc_iv.gms Start 02/28/21 13:44:15 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- uc_iv.gms(70) 2 Mb
+--- .extract_data_uc.gms(58) 3 Mb
+--- GDXin=C:\Users\Jairo\Downloads\Prueba\Testcases_gdx\rts96_summer_wday.gdx
+--- .extract_data_uc.gms(302) 4 Mb
+--- uc_iv.gms(287) 4 Mb
+--- .cost_objective_uc.gms(78) 4 Mb
+--- uc_iv.gms(470) 4 Mb
+--- Starting execution: elapsed 0:00:00.010
+--- uc_iv.gms(706) 5 Mb
+--- Generating MINLP model uc_ac
+--- uc_iv.gms(711) 7 Mb
+---   1,140 rows  741 columns  2,651 non-zeroes
+---   1,046 nl-code  298 nl-non-zeroes
+--- uc_iv.gms(711) 5 Mb
+--- Executing SCIP: elapsed 0:00:00.020
+
+SCIP             24.9.2 r64480 Released Nov 14, 2017 WEI x86 64bit/MS Windows 
+SCIP version 4.0 (22b4564)
+Copyright (C) 2002-2017 Konrad-Zuse-Zentrum fuer Informationstechnik Berlin (ZIB)
+
+External codes: 
+  CPLEX 12.7.1.0       Linear Programming Solver developed by IBM (www.cplex.com)
+  CppAD 20160000.1     Algorithmic Differentiation of C++ algorithms developed by B. Bell (www.coin-or.org/CppAD)
+  Ipopt 3.12           Interior Point Optimizer developed by A. Waechter et.al. (www.coin-or.org/Ipopt)
+non-default parameter settings:
+limits/time = 1000
+limits/gap = 0.1
+lp/threads = 1
+misc/printreason = FALSE
+timing/clocktype = 2
+display/nfrac/active = 2
+display/nexternbranchcands/active = 2
+
+original problem has 740 variables (99 bin, 0 int, 641 cont) and 1139 constraints
+
+all 1 solutions given by solution candidate storage are infeasible
+
+presolving:
+(round 1, fast)       496 del vars, 990 del conss, 0 add conss, 360 chg bounds, 0 chg sides, 0 chg coeffs, 0 upgd conss, 0 impls, 0 clqs
+presolving (2 rounds: 2 fast, 0 medium, 0 exhaustive):
+ 595 deleted vars, 990 deleted constraints, 0 added constraints, 360 tightened bounds, 0 added holes, 0 changed sides, 0 changed coefficients
+ 0 implications, 0 cliques
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+presolving detected infeasibility
+Presolving Time: 0.00
+
+SCIP Status        : problem is solved [infeasible]
+Solving Time (sec) : 0.00
+Solving Nodes      : 0
+Primal Bound       : +1.00000000000000e+020 (0 solutions)
+Dual Bound         : -1.00000000000000e+020
+Gap                : infinite
+
+
+--- Restarting execution
+--- uc_iv.gms(711) 3 Mb
+--- Reading solution for model uc_ac
+--- Executing after solve: elapsed 0:00:00.240
+--- uc_iv.gms(735) 4 Mb
+*** Status: Normal completion
+--- Job uc_iv.gms Stop 02/28/21 13:44:15 elapsed 0:00:00.241

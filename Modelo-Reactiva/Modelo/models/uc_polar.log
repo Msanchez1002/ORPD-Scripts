@@ -1,0 +1,182 @@
+
+--- Job uc_polar.gms Start 02/27/21 13:21:45 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- uc_polar.gms(69) 2 Mb
+--- .extract_data_uc.gms(58) 3 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\rts96_summer_wday.gdx
+--- .extract_data_uc.gms(302) 4 Mb
+--- uc_polar.gms(285) 4 Mb
+--- .cost_objective_uc.gms(79) 4 Mb
+--- uc_polar.gms(484) 4 Mb
+--- Starting execution: elapsed 0:00:00.011
+--- uc_polar.gms(718) 10 Mb
+--- Generating MINLP model uc_ac
+--- uc_polar.gms(726) 25 Mb
+---   48,523 rows  29,281 columns  160,978 non-zeroes
+---   220,776 nl-code  46,152 nl-non-zeroes
+--- uc_polar.gms(726) 22 Mb
+--- Executing BONMIN: elapsed 0:00:00.196
+
+COIN-OR Bonmin   24.9.2 r64480 Released Nov 14, 2017 WEI x86 64bit/MS Windows 
+
+COIN-OR Bonmin (Bonmin Library 1.8)
+written by P. Bonami.
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.12, running with linear solver mumps.
+
+Number of nonzeros in equality constraint Jacobian...:    78240
+Number of nonzeros in inequality constraint Jacobian.:    50280
+Number of nonzeros in Lagrangian Hessian.............:    15384
+
+Total number of variables............................:    26808
+                     variables with only lower bounds:     7128
+                variables with lower and upper bounds:    12192
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:    17400
+Total number of inequality constraints...............:    31122
+        inequality constraints with only lower bounds:     9504
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:    21618
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 2.0175180e+006 1.49e+002 2.50e+001   0.0 0.00e+000    -  0.00e+000 0.00e+000   0
+   2 2.0407006e+006 1.90e+002 2.09e+002   1.6 4.29e+003    -  8.46e-003 1.33e-002f  1
+   5 2.3177108e+006 2.17e+002 3.01e+003   1.5 1.01e+004    -  9.81e-002 5.14e-002f  1
+   8 3.8484119e+006 1.14e+002 2.57e+003   1.4 7.83e+003    -  6.80e-002 2.27e-001f  1
+  11 4.8987802e+006 4.15e+001 1.61e+003   1.4 5.00e+003    -  1.40e-001 2.15e-001f  1
+  13 5.5544556e+006 1.60e+000 9.72e+002   1.1 3.01e+003    -  2.47e-001 1.05e-001h  1
+  16 6.2534984e+006 9.79e-001 1.10e+003   1.1 2.81e+004    -  1.11e-002 1.27e-001h  1
+  19 7.0422928e+006 6.84e-001 2.19e+003   1.1 1.53e+004    -  4.79e-002 1.12e-001h  1
+  22 8.6097250e+006 2.87e-001 8.14e+003   0.9 1.00e+004    -  1.05e-001 3.75e-001h  1
+  25 9.1326513e+006 6.83e-003 8.88e+002  -0.8 2.79e+003    -  8.58e-001 6.93e-001f  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  27 8.6310141e+006 2.42e-003 2.97e+004  -0.8 2.46e+003    -  9.77e-001 3.31e-001f  1
+  29 8.2299220e+006 3.85e-003 1.00e+004  -1.9 1.20e+003    -  8.94e-001 5.52e-001f  1
+  31 8.1695352e+006 8.06e-003 2.22e+003  -2.8 6.48e+002    -  6.42e-001 6.09e-001f  1
+  33 8.1629666e+006 3.62e-003 6.78e+001  -3.5 5.28e+002    -  5.80e-001 6.00e-001f  1
+  35 8.1618708e+006 1.67e-003 9.26e+004  -3.9 2.10e+002    -  2.17e-001 5.11e-001f  1
+  37 8.1616382e+006 9.31e-004 1.47e+005  -4.1 8.24e+001    -  1.50e-002 9.27e-002h  1
+  39 8.1616343e+006 8.98e-004 2.10e+005  -3.9 7.10e+001    -  5.05e-003 1.79e-002h  1
+  41 8.1615185e+006 4.94e-004 7.34e+004  -4.3 4.23e+001    -  3.47e-007 6.97e-006f  2
+  44 8.1614858e+006 1.24e-004 1.18e+006  -4.5 1.78e+001    -  1.00e+000 9.86e-002f  4
+  45r8.1614858e+006 1.24e-004 1.00e+003  -3.9 0.00e+000    -  0.00e+000 1.52e-015R  2
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  47r8.1614901e+006 2.16e-006 1.30e+003  -4.0 2.50e+000    -  4.12e-001 4.39e-002f  1
+  49 8.1629347e+006 2.19e-006 2.95e+004   2.0 1.14e+007    -  2.01e-007 1.23e-006f  1
+  52 8.1696372e+006 2.80e-005 8.78e+004   0.6 2.46e+004    -  5.31e-004 4.42e-004f  1
+  55 8.2558938e+006 4.48e-002 4.47e+007   0.6 3.50e+003    -  1.21e-002 5.69e-002f  1
+  58 8.4112143e+006 3.05e-002 1.06e+009   0.6 7.67e+002    -  1.87e-003 7.80e-003f  1
+  61 8.5305504e+006 1.94e-002 2.59e+009   0.6 7.54e+002    -  4.22e-004 3.99e-003f  1
+  64 8.9466466e+006 4.07e-003 9.28e+009   0.6 1.12e+003    -  2.10e-006 6.38e-005f  1
+  67 1.0337184e+007 6.19e-004 3.73e+008   0.6 7.14e+002    -  9.54e-001 9.90e-001h  1
+  70 8.8225266e+006 2.28e-001 1.10e+008  -0.1 2.50e+002    -  7.02e-001 1.00e+000f  1
+  73 8.2144378e+006 5.62e-003 6.63e+005  -1.5 8.19e+002    -  8.88e-001 5.66e-001f  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  76 8.1646470e+006 6.33e-003 2.24e+004  -4.9 4.20e+002    -  6.03e-001 5.66e-001f  1
+  79 8.1616861e+006 2.76e-003 1.99e+003  -4.9 1.45e+002    -  6.22e-001 5.40e-001f  1
+  82 8.1614786e+006 4.42e-004 9.43e+000  -4.9 4.16e+001    -  9.25e-001 5.93e-001h  1
+In iteration 83, 2277 Slacks too small, adjusting variable bounds
+  84 8.1614532e+006 6.69e-005 1.13e-001  -7.1 1.95e+001    -  9.13e-001 8.81e-001h  1
+In iteration 84, 2376 Slacks too small, adjusting variable bounds
+In iteration 85, 2376 Slacks too small, adjusting variable bounds
+  86 8.1614519e+006 1.75e-006 7.40e-002 -11.0 3.05e+000    -  9.74e-001 9.62e-001h  1
+In iteration 86, 2376 Slacks too small, adjusting variable bounds
+In iteration 87, 2376 Slacks too small, adjusting variable bounds
+  88 8.1614519e+006 1.86e-007 3.75e+000 -11.0 5.73e-001    -  1.00e+000 7.74e-001h  1
+In iteration 88, 2376 Slacks too small, adjusting variable bounds
+In iteration 89, 2376 Slacks too small, adjusting variable bounds
+  90 8.1614519e+006 1.20e-008 3.81e-006 -11.0 1.19e+000    -  1.00e+000 1.00e+000h  1
+In iteration 90, 2376 Slacks too small, adjusting variable bounds
+
+Number of Iterations....: 91
+
+                                   (scaled)                 (unscaled)
+Objective...............:  1.0649465198889471e+005   8.1614519434033213e+006
+Dual infeasibility......:  1.9073486328125000e-006   1.4617385864257814e-004
+Constraint violation....:  6.6234617790428274e-010   6.6234617790428274e-010
+Complementarity.........:  3.3587078941052297e-010   2.5740196862212132e-008
+Overall NLP error.......:  6.6234617790428274e-010   1.4617385864257814e-004
+
+
+Number of objective function evaluations             = 101
+Number of objective gradient evaluations             = 90
+Number of equality constraint evaluations            = 101
+Number of inequality constraint evaluations          = 101
+Number of equality constraint Jacobian evaluations   = 92
+Number of inequality constraint Jacobian evaluations = 92
+Number of Lagrangian Hessian evaluations             = 91
+Total CPU secs in IPOPT (w/o function evaluations)   =     20.838
+Total CPU secs in NLP function evaluations           =      2.389
+
+EXIT: Optimal Solution Found.
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 8161451.9       91 23.227
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 8161451.9      100 24.277
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 8161451.9       40 12.518
+Cbc0012I Integer solution of 8161451.9 found by DiveMIPFractional after 0 iterations and 0 nodes (36.85 seconds)
+Cbc0011I Exiting as integer gap of 0.00091131497 less than 0 or 10%%
+Cbc0001I Search completed - best objective 8161451.944314636, took 0 iterations and 0 nodes (36.85 seconds)
+Cbc0035I Maximum depth 0, 0 variables fixed on reduced cost
+
+Bonmin finished. Found feasible solution. Objective function value = 8.16145e+006.
+Resolve with fixed discrete variables to get dual values.
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 8161451.9       28 18.971
+Warning: Optimal value of NLP subproblem differ from best MINLP value reported by Bonmin.
+Will not replace solution, dual values will not be available.
+
+
+Best solution:   8.161452e+006   (0 nodes, 60.11 seconds)
+
+Best possible:   8.161452e+006   (only reliable for convex models)
+Absolute gap:    1.158300e-003   (absolute tolerance optca: 0)
+Relative gap:    1.419233e-010   (relative tolerance optcr: 0.1)
+--- Restarting execution
+--- uc_polar.gms(726) 10 Mb
+--- Reading solution for model uc_ac
+***
+*** Solver did not provide marginals for model uc_ac
+***
+--- uc_polar.gms(726) 13 Mb
+--- Executing after solve: elapsed 0:01:19.658
+--- uc_polar.gms(750) 13 Mb
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\ALL_solution.gdx
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\temp_solution.gdx
+--- Job save_solution_uc.gms Start 02/27/21 13:23:04 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- save_solution_uc.gms(34) 2 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\rts96_summer_wday.gdx
+--- save_solution_uc.gms(52) 5 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\models\temp_solution.gdx
+--- save_solution_uc.gms(105) 5 Mb
+--- Starting execution: elapsed 0:00:00.031
+--- save_solution_uc.gms(89) 7 Mb
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\rts96_summer_wday_AC_UC_solution.gdxtemp
+--- save_solution_uc.gms(96) 7 Mb
+--- save_solution_uc.gms(98) 7 Mb
+*** Status: Normal completion
+--- Job save_solution_uc.gms Stop 02/27/21 13:23:05 elapsed 0:00:00.183
+*** Status: Normal completion
+--- Job uc_polar.gms Stop 02/27/21 13:23:05 elapsed 0:01:19.953

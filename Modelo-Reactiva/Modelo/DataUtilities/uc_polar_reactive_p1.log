@@ -1,0 +1,127 @@
+
+--- Job uc_polar_reactive_p1.gms Start 03/19/21 20:06:56 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- uc_polar_reactive_p1.gms(69) 2 Mb
+--- .extract_data_uc.gms(58) 3 Mb
+--- GDXin=C:\Users\Jairo\Downloads\Testcases_solution\rts96_spring_wday_AC_UC_solution.gdx
+--- .extract_data_uc.gms(312) 4 Mb
+--- uc_polar_reactive_p1.gms(300) 4 Mb
+--- .cost_objective_uc.gms(83) 4 Mb
+--- uc_polar_reactive_p1.gms(516) 4 Mb
+--- Starting execution: elapsed 0:00:00.015
+--- uc_polar_reactive_p1.gms(748) 8 Mb
+--- Generating MINLP model uc_ac
+--- uc_polar_reactive_p1.gms(762) 11 Mb
+---   4,243 rows  3,568 columns  15,188 non-zeroes
+---   32,367 nl-code  7,218 nl-non-zeroes
+--- uc_polar_reactive_p1.gms(762) 9 Mb
+--- Executing BONMIN: elapsed 0:00:00.050
+
+COIN-OR Bonmin   24.9.2 r64480 Released Nov 14, 2017 WEI x86 64bit/MS Windows 
+
+COIN-OR Bonmin (Bonmin Library 1.8)
+written by P. Bonami.
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.12, running with linear solver mumps.
+
+Number of nonzeros in equality constraint Jacobian...:     9096
+Number of nonzeros in inequality constraint Jacobian.:     3760
+Number of nonzeros in Lagrangian Hessian.............:     2157
+
+Total number of variables............................:     2943
+                     variables with only lower bounds:      219
+                variables with lower and upper bounds:     1788
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:     1878
+Total number of inequality constraints...............:     2364
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:     2364
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 2.5905859e-001 9.80e-001 1.00e+000   0.0 0.00e+000    -  0.00e+000 0.00e+000   0
+
+Number of Iterations....: 24
+
+                                   (scaled)                 (unscaled)
+Objective...............:  2.5905859042967644e-001   2.5905859042967644e-001
+Dual infeasibility......:  1.4437992779378292e-012   1.4437992779378292e-012
+Constraint violation....:  1.0952350137927169e-013   1.0952350137927169e-013
+Complementarity.........:  9.0932975316130648e-010   9.0932975316130648e-010
+Overall NLP error.......:  9.0932975316130648e-010   9.0932975316130648e-010
+
+
+Number of objective function evaluations             = 25
+Number of objective gradient evaluations             = 25
+Number of equality constraint evaluations            = 25
+Number of inequality constraint evaluations          = 25
+Number of equality constraint Jacobian evaluations   = 25
+Number of inequality constraint Jacobian evaluations = 25
+Number of Lagrangian Hessian evaluations             = 24
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.447
+Total CPU secs in NLP function evaluations           =      0.082
+
+EXIT: Optimal Solution Found.
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 0.25905859       24 0.529
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 0.25905859        8 0.222
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 0.25905859        8 0.272
+Cbc0012I Integer solution of 0.25905859 found by DiveMIPFractional after 0 iterations and 0 nodes (0.50 seconds)
+Cbc0001I Search completed - best objective 0.2590585904296764, took 0 iterations and 0 nodes (0.50 seconds)
+Cbc0035I Maximum depth 0, 0 variables fixed on reduced cost
+
+Bonmin finished. Found feasible solution. Objective function value = 0.259059.
+Resolve with fixed discrete variables to get dual values.
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1         OPT 0.25905859        8 0.273
+
+Best solution:   2.590586e-001   (0 nodes, 1.093 seconds)
+
+Best possible:   2.590586e-001   (only reliable for convex models)
+Absolute gap:    0.000000e+000   (absolute tolerance optca: 0)
+Relative gap:    0.000000e+000   (relative tolerance optcr: 0.1)
+--- Restarting execution
+--- uc_polar_reactive_p1.gms(762) 6 Mb
+--- Reading solution for model uc_ac
+--- Executing after solve: elapsed 0:00:01.543
+--- uc_polar_reactive_p1.gms(786) 8 Mb
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\ALL_solution.gdx
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\temp_solution.gdx
+--- Job save_solution_uc.gms Start 03/19/21 20:06:58 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- save_solution_uc.gms(34) 2 Mb
+--- GDXin=C:\Users\Jairo\Downloads\Testcases_solution\rts96_spring_wday_AC_UC_solution.gdx
+--- save_solution_uc.gms(52) 5 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\models\temp_solution.gdx
+--- save_solution_uc.gms(105) 5 Mb
+--- Starting execution: elapsed 0:00:00.014
+--- save_solution_uc.gms(89) 6 Mb
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\rts96_spring_wday_AC_UC_solution_AC_UC_solution.gdxtemp
+--- save_solution_uc.gms(96) 6 Mb
+--- save_solution_uc.gms(98) 6 Mb
+*** Status: Normal completion
+--- Job save_solution_uc.gms Stop 03/19/21 20:06:58 elapsed 0:00:00.161
+*** Status: Normal completion
+--- Job uc_polar_reactive_p1.gms Stop 03/19/21 20:06:58 elapsed 0:00:01.792

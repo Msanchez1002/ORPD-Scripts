@@ -1,0 +1,65 @@
+
+--- Job to_xls.gms Start 02/27/21 13:37:52 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- to_xls.gms(23) 3 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\rts96_spring_wday.gdx
+--- to_xls.gms(147) 4 Mb
+--- Starting execution: elapsed 0:00:00.007
+--- to_xls.gms(137) 4 Mb
+--- GDX File C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+--- to_xls.gms(139) 4 Mb
+
+GDXXRW           24.9.2 r64480 Released Nov 14, 2017 VS8 x86 32bit/MS Windows 
+Input file : C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+Output file: C:\Users\Jairo\Desktop\Modelo\DataUtilities\rts96_spring_wday.xlsx
+Total time = 2796 Ms
+--- to_xls.gms(140) 4 Mb
+
+GDXXRW           24.9.2 r64480 Released Nov 14, 2017 VS8 x86 32bit/MS Windows 
+Input file : C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+Output file: C:\Users\Jairo\Desktop\Modelo\DataUtilities\rts96_spring_wday.xlsx
+Adding new sheet: baseMVA
+Total time = 1031 Ms
+--- to_xls.gms(141) 4 Mb
+
+GDXXRW           24.9.2 r64480 Released Nov 14, 2017 VS8 x86 32bit/MS Windows 
+Input file : C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+Output file: C:\Users\Jairo\Desktop\Modelo\DataUtilities\rts96_spring_wday.xlsx
+Adding new sheet: BusData
+Total time = 922 Ms
+--- to_xls.gms(142) 4 Mb
+
+GDXXRW           24.9.2 r64480 Released Nov 14, 2017 VS8 x86 32bit/MS Windows 
+Input file : C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+Output file: C:\Users\Jairo\Desktop\Modelo\DataUtilities\rts96_spring_wday.xlsx
+Adding new sheet: LoadData
+Total time = 985 Ms
+--- to_xls.gms(143) 4 Mb
+
+GDXXRW           24.9.2 r64480 Released Nov 14, 2017 VS8 x86 32bit/MS Windows 
+Input file : C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+Output file: C:\Users\Jairo\Desktop\Modelo\DataUtilities\rts96_spring_wday.xlsx
+Adding new sheet: GeneratorData
+Total time = 969 Ms
+--- to_xls.gms(144) 4 Mb
+
+GDXXRW           24.9.2 r64480 Released Nov 14, 2017 VS8 x86 32bit/MS Windows 
+Input file : C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+Output file: C:\Users\Jairo\Desktop\Modelo\DataUtilities\rts96_spring_wday.xlsx
+Adding new sheet: BranchData
+Total time = 1000 Ms
+--- to_xls.gms(145) 4 Mb
+
+GDXXRW           24.9.2 r64480 Released Nov 14, 2017 VS8 x86 32bit/MS Windows 
+Input file : C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+Output file: C:\Users\Jairo\Desktop\Modelo\DataUtilities\rts96_spring_wday.xlsx
+Adding new sheet: TransformerData
+Total time = 953 Ms
+--- to_xls.gms(146) 4 Mb
+*** Status: Normal completion
+--- Job to_xls.gms Stop 02/27/21 13:38:02 elapsed 0:00:09.430

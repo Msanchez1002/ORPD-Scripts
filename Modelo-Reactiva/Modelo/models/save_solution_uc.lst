@@ -1,0 +1,157 @@
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows                                                                                                                                                                 02/27/21 13:23:04 Page 1
+"Power System GDX data file maker"
+C o m p i l a t i o n
+
+
+   2   
+   7   
+   8   
+   9  sets
+  10      ints,
+  11      t,
+  12      bus,
+  13      gen,
+  14      circuit,
+  15      demandbid,
+  16      demandbidmap,
+  17      interface,
+  18      interfacemap,
+  19      fuel_t, fuel_s, prime_mover,
+  20      bus_t, bus_s,
+  21      gen_t, gen_s,
+  22      branch_t, branch_s,
+  23      demandbid_t, demandbid_s
+  24      interface_t,
+  25      line(bus,bus,circuit),
+  26      transformer(bus,bus,circuit),
+  27      monitored_lines(bus,bus,circuit)
+  28  ;
+  29   
+  30  parameters version, baseMVA, total_cost;
+  31  parameters businfo(*,*,*), geninfo(*,*,*), fuelinfo(*,*),
+  32             branchinfo(*,*,*,*,*), demandbidinfo(*,*,*,*), interfaceinfo(*,*,*);
+  33   
+GDXIN   C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\rts96_summer_wday.gdx
+--- LOAD  version = 25:version
+--- LOAD  baseMVA = 26:baseMVA
+--- LOAD  total_cost = 27:total_cost
+--- LOAD  ints = 1:ints
+--- LOAD  t = 2:t
+--- LOAD  bus = 3:bus
+--- LOAD  gen = 4:gen
+--- LOAD  circuit = 5:circuit
+--- LOAD  line = 22:line
+--- LOAD  transformer = 23:transformer
+--- LOAD  monitored_lines = 24:monitored_lines
+--- LOAD  bus_t = 13:bus_t
+--- LOAD  bus_s = 14:bus_s
+--- LOAD  gen_t = 15:gen_t
+--- LOAD  gen_s = 16:gen_s
+--- LOAD  branch_t = 17:branch_t
+--- LOAD  branch_s = 18:branch_s
+--- LOAD  demandbid_t = 19:demandbid_t
+--- LOAD  demandbid_s = 20:demandbid_s
+--- LOAD  interface_t = 21:interface_t
+--- LOAD  fuel_t = 6:fuel_t
+--- LOAD  fuel_s = 7:fuel_s
+--- LOAD  prime_mover = 8:prime_mover
+--- LOAD  businfo = 28:businfo
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows                                                                                                                                                                 02/27/21 13:23:04 Page 2
+"Power System GDX data file maker"
+C o m p i l a t i o n
+
+
+--- LOAD  geninfo = 29:geninfo
+--- LOAD  branchinfo = 31:branchinfo
+--- LOAD  fuelinfo = 30:fuelinfo
+--- LOAD  demandbid = 9:demandbid
+--- LOAD  demandbidmap = 10:demandbidmap
+--- LOAD  demandbidinfo = 32:demandbidinfo
+--- LOAD  interface = 11:interface
+--- LOAD  interfacemap = 12:interfacemap
+--- LOAD  interfaceinfo = 33:interfaceinfo
+  44   
+  45  alias(bus,i,j);
+  46  alias(circuit,c);
+  47   
+  48  set t_solved;
+  49  parameters Vm, Va, Pg, Qg, total_cost,
+  50             LMP_Energy(bus,t_solved), LMP_Loss(bus,t_solved), LMP_Congestion(bus,t_solved), LMP(bus,t_solved),
+  51             LineSP(i,j,c,t_solved), status(gen,t_solved), shuntB(bus,*);
+GDXIN   C:\Users\Jairo\Desktop\Modelo\models\temp_solution.gdx
+--- LOAD  t_solved = 1:t
+--- LOAD  Vm = 4:Vm
+--- LOAD  Va = 5:Va
+--- LOAD  Pg = 2:Pg
+  55   
+--- LOAD  Qg = 3:Qg
+--- LOAD  shuntB = 6:shuntB
+  59   
+--- LOAD  status = 10:status
+  63   
+  65   
+--- MERGE total_cost = 7:total_cost
+--- LOAD  LMP = 8:LMP
+--- LOAD  LineSP = 9:LineSP
+  68  version = Jnow;
+  69   
+  70  businfo(bus,'Vm',t_solved) = Vm(bus,t_solved);
+  71  businfo(bus,'Va',t_solved) = Va(bus,t_solved);
+  72  businfo(bus,'LMP',t_solved) = LMP(bus,t_solved) / baseMVA;
+  73   
+  74  geninfo(gen,'Pg',t_solved) = Pg(gen,t_solved) * baseMVA;
+  76  geninfo(gen,'Qg',t_solved) = Qg(gen,t_solved) * baseMVA;
+  77  businfo(bus,'switchedBsSolved',t_solved) = shuntB(bus,t_solved) * baseMVA;
+  79   
+  81  geninfo(gen,'status',t_solved) = status(gen,t_solved);
+  83   
+  85   
+  86  branchinfo(i,j,c,'LineSP',t_solved) = LineSP(i,j,c,t_solved) * baseMVA;
+  87   
+  88   
+  89  execute_unload "C:\Users\Jairo\Desktop\Modelo\models\rts96_summer_wday_AC_UC_solution.gdxtemp", version, total_cost, baseMVA, ints, t, bus, gen, circuit,
+  90                          line, transformer, monitored_lines, demandbid, demandbidmap, interface, interfacemap
+  91                          bus_t, bus_s, gen_t, gen_s, branch_t, branch_s, fuel_t, fuel_s, prime_mover
+  92                          demandbid_t, demandbid_s, interface_t
+  93                          businfo, geninfo, branchinfo, demandbidinfo, interfaceinfo, fuelinfo
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows                                                                                                                                                                 02/27/21 13:23:04 Page 3
+"Power System GDX data file maker"
+C o m p i l a t i o n
+
+
+  94  ;
+  95   
+  96  execute 'gams "C:\Users\Jairo\Desktop\Modelo\models\save_domain_info.gms" --in="C:\Users\Jairo\Desktop\Modelo\models\rts96_summer_wday_AC_UC_solution.gdxtemp" gdx="C:\Users\Jairo\Desktop\Modelo\models\rts96_summer_wday_AC_UC_solution.gdx"'
+  97  if(errorlevel ne 0, abort "Saving domain info failed!");
+  98  execute 'rm "C:\Users\Jairo\Desktop\Modelo\models\rts96_summer_wday_AC_UC_solution.gdxtemp"';
+  99   
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows                                                                                                                                                                 02/27/21 13:23:04 Page 4
+"Power System GDX data file maker"
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+     2       34 GDXIN          1      34  C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\rts96_summer_wday.gdx
+     3       52 GDXIN          1      52  C:\Users\Jairo\Desktop\Modelo\models\temp_solution.gdx
+
+
+COMPILATION TIME     =        0.031 SECONDS      5 MB  24.9.2 r64480 WEX-WEI
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows                                                                                                                                                                 02/27/21 13:23:04 Page 5
+"Power System GDX data file maker"
+E x e c u t i o n
+
+
+EXECUTION TIME       =        0.156 SECONDS      7 MB  24.9.2 r64480 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G170728:0528AO-GEN
+      Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+Output     C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.lst

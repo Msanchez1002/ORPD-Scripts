@@ -1,0 +1,44 @@
+
+--- Job extract_data_uc.gms Start 03/18/21 10:13:02 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- extract_data_uc.gms(58) 3 Mb
+*** GDXIN failed C:\Users\Jairo\Desktop\Modelo\DataUtilities\%case%.gdx
+*** Msg: No such file or directory
+--- extract_data_uc.gms(58) 3 Mb 1 Error
+*** Error 510 in C:\Users\Jairo\Desktop\Modelo\models\extract_data_uc.gms
+    Unable to open gdx file for $GDXIN
+--- extract_data_uc.gms(59) 3 Mb 2 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\extract_data_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- extract_data_uc.gms(62) 3 Mb 3 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\extract_data_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- extract_data_uc.gms(64) 3 Mb 4 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\extract_data_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- extract_data_uc.gms(65) 3 Mb 5 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\extract_data_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- extract_data_uc.gms(66) 3 Mb 6 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\extract_data_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- extract_data_uc.gms(67) 3 Mb 7 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\extract_data_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- extract_data_uc.gms(68) 3 Mb 8 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\extract_data_uc.gms
+    GDXIN  file not open - ignore rest of line
+***
+*** Abort "Fix invalid option: --linelimit=%linelimits%"
+***
+*** Error 343 in C:\Users\Jairo\Desktop\Modelo\models\extract_data_uc.gms
+    Abort triggered by above statement
+--- extract_data_uc.gms(76) 3 Mb 9 Errors
+*** Status: Compilation error(s)
+--- Job extract_data_uc.gms Stop 03/18/21 10:13:02 elapsed 0:00:00.038
+Exit code = 2

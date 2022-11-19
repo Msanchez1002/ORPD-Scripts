@@ -1,0 +1,17 @@
+
+--- Job gdx2xls.gms Start 02/27/21 20:18:13 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- gdx2xls.gms(28) 3 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\rts96_summer_wday.gdx
+--- gdx2xls.gms(95) 5 Mb 1 Error
+*** Error 459 in C:\Users\Jairo\Desktop\Modelo\DataUtilities\gdx2xls.gms
+    $echo file cannot be opened
+--- gdx2xls.gms(309) 5 Mb 1 Error
+*** Status: Compilation error(s)
+--- Job gdx2xls.gms Stop 02/27/21 20:18:15 elapsed 0:00:01.298
+Exit code = 2

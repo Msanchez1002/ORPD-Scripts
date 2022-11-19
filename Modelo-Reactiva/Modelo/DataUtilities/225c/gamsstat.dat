@@ -1,0 +1,16 @@
+=C
+=CCOIN-OR Bonmin   24.9.2 r64480 Released Nov 14, 2017 WEI x86 64bit/MS Windows 
+=0COIN-OR Bonmin   24.9.2 r64480 Released Nov 14, 2017 WEI x86 64bit/MS Windows 
+
+COIN-OR Bonmin (Bonmin Library 1.8)
+written by P. Bonami.
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+=CNLP0012I 
+              Num      Status      Obj             It       time                 Location
+=CNLP0014I             1      INFEAS 0.067499068      739 49.878

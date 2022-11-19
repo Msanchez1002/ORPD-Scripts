@@ -1,0 +1,102 @@
+
+--- Job polar_acopf.gms Start 03/07/21 17:04:08 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- polar_acopf.gms(67) 2 Mb
+--- .extract_data.gms(56) 3 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\case118_spring_wday.gdx
+--- .extract_data.gms(282) 4 Mb
+--- polar_acopf.gms(208) 4 Mb
+--- .cost_objective.gms(77) 4 Mb
+--- polar_acopf.gms(274) 4 Mb
+--- .default.gms(14) 4 Mb
+--- ..calc_derived_vars.gms(38) 4 Mb
+--- .default.gms(40) 4 Mb
+--- polar_acopf.gms(347) 4 Mb
+--- Starting execution: elapsed 0:00:00.011
+--- polar_acopf.gms(651) 5 Mb
+--- Generating NLP model acopf
+--- polar_acopf.gms(653) 8 Mb
+---   1,339 rows  1,089 columns  5,357 non-zeroes
+---   14,398 nl-code  3,044 nl-non-zeroes
+--- polar_acopf.gms(653) 6 Mb
+--- Executing IPOPT: elapsed 0:00:00.028
+
+COIN-OR Ipopt    24.9.2 r64480 Released Nov 14, 2017 WEI x86 64bit/MS Windows 
+
+COIN-OR Interior Point Optimizer (Ipopt Library 3.12)
+written by A. Waechter.
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.12, running with linear solver mumps.
+
+Number of nonzeros in equality constraint Jacobian...:     4562
+Number of nonzeros in inequality constraint Jacobian.:      704
+Number of nonzeros in Lagrangian Hessian.............:     1110
+
+Total number of variables............................:     1087
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:      598
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:      980
+Total number of inequality constraints...............:      358
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:      358
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 1.7160930e+005 4.52e+000 2.19e+001   0.0 0.00e+000    -  0.00e+000 0.00e+000   0
+   1 9.5566820e+004 8.91e-001 5.16e+000   0.7 4.41e+000    -  1.00e+000 8.03e-001f  1
+   2 8.2356902e+004 2.27e-003 2.44e+000  -5.3 8.93e-001    -  8.91e-001 1.00e+000f  1
+   3 8.1280965e+004 2.33e-003 1.45e+000  -1.6 2.87e-001    -  9.27e-001 1.00e+000f  1
+   4 8.0674174e+004 4.90e-003 3.25e-002  -1.9 5.49e-001    -  1.00e+000 1.00e+000f  1
+   5 8.0431850e+004 7.66e-003 1.74e-001  -2.9 4.29e-001    -  7.52e-001 1.00e+000f  1
+   6 8.0378090e+004 4.69e-003 5.28e-002  -2.8 2.37e-001    -  8.94e-001 6.91e-001h  1
+   7 8.0353387e+004 2.48e-003 9.53e-001  -3.4 3.19e-001    -  9.94e-001 4.84e-001h  1
+   8 8.0338439e+004 1.43e-003 5.12e-001  -3.5 3.17e-001    -  9.99e-001 6.64e-001h  1
+   9 8.0329089e+004 1.07e-003 1.95e-002  -4.1 1.88e-001    -  1.00e+000 9.79e-001h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  10 8.0329053e+004 5.19e-004 1.12e-001  -5.2 6.91e-002    -  1.00e+000 5.59e-001h  1
+  11 8.0329108e+004 7.73e-005 6.16e-003  -5.7 4.46e-002    -  1.00e+000 9.64e-001h  1
+  12 8.0329167e+004 2.72e-006 2.14e-004  -7.1 8.25e-003    -  1.00e+000 9.92e-001h  1
+  13 8.0329170e+004 3.88e-008 9.61e-007  -9.1 1.12e-003    -  1.00e+000 1.00e+000h  1
+  14 8.0329170e+004 9.59e-010 2.41e-008 -11.0 1.75e-004    -  1.00e+000 1.00e+000h  1
+  15 8.0329170e+004 7.19e-013 1.81e-011 -11.0 4.81e-006    -  1.00e+000 1.00e+000h  1
+
+Number of Iterations....: 15
+
+                                   (scaled)                 (unscaled)
+Objective...............:  2.8688989230676907e+002   8.0329169845895347e+004
+Dual infeasibility......:  1.8063605775807236e-011   5.0578096172260265e-009
+Constraint violation....:  7.1913308641313733e-013   7.1913308641313733e-013
+Complementarity.........:  1.8549994159150428e-011   5.1939983645621205e-009
+Overall NLP error.......:  1.8549994159150428e-011   5.1939983645621205e-009
+
+
+Number of objective function evaluations             = 16
+Number of objective gradient evaluations             = 16
+Number of equality constraint evaluations            = 16
+Number of inequality constraint evaluations          = 16
+Number of equality constraint Jacobian evaluations   = 16
+Number of inequality constraint Jacobian evaluations = 16
+Number of Lagrangian Hessian evaluations             = 15
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.122
+Total CPU secs in NLP function evaluations           =      0.015
+
+EXIT: Optimal Solution Found.
+--- Restarting execution
+--- polar_acopf.gms(653) 4 Mb
+--- Reading solution for model acopf
+--- Executing after solve: elapsed 0:00:00.317
+--- polar_acopf.gms(675) 4 Mb
+*** Status: Normal completion
+--- Job polar_acopf.gms Stop 03/07/21 17:04:08 elapsed 0:00:00.318

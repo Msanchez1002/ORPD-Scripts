@@ -1,0 +1,10 @@
+[CHART]
+VERID=GAMSIDE Chart(s) V1
+GDXFILE=case118_spring_wday_AC_UC_solution_AC_UC_solution.gdx
+TITLE=shuntswitcheditinfo
+
+[SERIES1]
+SYMBOL=shuntswitcheditinfo
+TYPE=horz-bars
+MAP=2,1,3
+FILTER=*,"switchedBsSolved",*

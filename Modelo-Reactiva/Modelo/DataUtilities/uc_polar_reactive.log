@@ -1,0 +1,142 @@
+
+--- Job uc_polar_reactive.gms Start 03/31/21 21:26:40 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- uc_polar_reactive.gms(69) 2 Mb
+--- .extract_data_uc.gms(58) 3 Mb
+--- GDXin=C:\Users\Jairo\Downloads\Testcases_solution\rts96_spring_wday_AC_UC_solution.gdx
+--- .extract_data_uc.gms(320) 4 Mb
+--- uc_polar_reactive.gms(299) 4 Mb
+--- .cost_objective_uc.gms(83) 4 Mb
+--- uc_polar_reactive.gms(509) 4 Mb
+--- Starting execution: elapsed 0:00:00.021
+--- uc_polar_reactive.gms(749) 15 Mb
+--- Generating MINLP model uc_ac
+--- uc_polar_reactive.gms(763) 22 Mb
+---   18,025 rows  14,449 columns  62,693 non-zeroes
+---   135,804 nl-code  29,928 nl-non-zeroes
+--- uc_polar_reactive.gms(763) 20 Mb
+--- Executing BONMIN: elapsed 0:00:00.131
+
+COIN-OR Bonmin   24.9.2 r64480 Released Nov 14, 2017 WEI x86 64bit/MS Windows 
+
+COIN-OR Bonmin (Bonmin Library 1.8)
+written by P. Bonami.
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.12, running with linear solver mumps.
+
+Number of nonzeros in equality constraint Jacobian...:    37440
+Number of nonzeros in inequality constraint Jacobian.:    15928
+Number of nonzeros in Lagrangian Hessian.............:     9684
+
+Total number of variables............................:    11952
+                     variables with only lower bounds:     1056
+                variables with lower and upper bounds:     7152
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:     8568
+Total number of inequality constraints...............:     9456
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:     9456
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 1.3506277e+000 1.01e+000 5.19e-015   0.0 0.00e+000    -  0.00e+000 0.00e+000   0
+   6 1.3506277e+000 8.94e-001 8.67e+006   0.0 3.66e+000    -  1.86e-001 9.03e-004h  1
+  11r1.3506277e+000 2.47e-001 7.67e+002   0.2 7.86e+000   2.0 1.69e-001 4.94e-002f  1
+  17r1.3506277e+000 2.50e-001 1.24e+001  -2.3 5.20e-002    -  9.31e-001 6.97e-001f  1
+  22r1.3506277e+000 2.48e-001 7.84e+001  -2.3 1.30e-001    -  3.14e-001 8.35e-001f  1
+  27r1.3506277e+000 2.48e-001 2.07e+001  -8.6 1.79e-001    -  7.53e-001 6.72e-001h  1
+
+Number of Iterations....: 31
+
+                                   (scaled)                 (unscaled)
+Objective...............:  1.3506276564528059e+000   1.3506276564528059e+000
+Dual infeasibility......:  1.0664357601602724e-004   1.0664357601602724e-004
+Constraint violation....:  2.4750000018612095e-001   2.4750000018612095e-001
+Complementarity.........:  1.5645483852718663e-008   1.5645483852718663e-008
+Overall NLP error.......:  2.4750000018612095e-001   2.4750000018612095e-001
+
+
+Number of objective function evaluations             = 37
+Number of objective gradient evaluations             = 8
+Number of equality constraint evaluations            = 37
+Number of inequality constraint evaluations          = 37
+Number of equality constraint Jacobian evaluations   = 33
+Number of inequality constraint Jacobian evaluations = 33
+Number of Lagrangian Hessian evaluations             = 32
+Total CPU secs in IPOPT (w/o function evaluations)   =      3.064
+Total CPU secs in NLP function evaluations           =      0.462
+
+EXIT: Converged to a point of local infeasibility. Problem may be infeasible.
+NLP0012I 
+              Num      Status      Obj             It       time                 Location
+NLP0014I             1      INFEAS 0.2475       31 3.526
+This is Ipopt version 3.12, running with linear solver mumps.
+
+Number of nonzeros in equality constraint Jacobian...:    37440
+Number of nonzeros in inequality constraint Jacobian.:    15928
+Number of nonzeros in Lagrangian Hessian.............:     9684
+
+Total number of variables............................:    11952
+                     variables with only lower bounds:     1056
+                variables with lower and upper bounds:     7152
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:     8568
+Total number of inequality constraints...............:     9456
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:     9456
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 1.3506277e+000 1.01e+000 5.19e-015   0.0 0.00e+000    -  0.00e+000 0.00e+000   0
+   6 1.3506277e+000 8.94e-001 8.67e+006   0.0 3.66e+000    -  1.86e-001 9.03e-004h  1
+  11r1.3506277e+000 2.47e-001 7.67e+002   0.2 7.86e+000   2.0 1.69e-001 4.94e-002f  1
+  17r1.3506277e+000 2.50e-001 1.24e+001  -2.3 5.20e-002    -  9.31e-001 6.97e-001f  1
+  21r1.3506277e+000 2.48e-001 1.15e+002  -2.3 2.98e+000    -  3.30e-001 2.70e-002f  1
+  26r1.3506277e+000 2.48e-001 2.26e-002  -9.0 1.73e-005   0.1 9.86e-001 9.81e-001h  1
+
+Number of Iterations....: 31
+
+                                   (scaled)                 (unscaled)
+Objective...............:  1.3506276564528059e+000   1.3506276564528059e+000
+Dual infeasibility......:  1.0664357601602724e-004   1.0664357601602724e-004
+Constraint violation....:  2.4750000018612095e-001   2.4750000018612095e-001
+Complementarity.........:  1.5645483852718663e-008   1.5645483852718663e-008
+Overall NLP error.......:  2.4750000018612095e-001   2.4750000018612095e-001
+
+
+Number of objective function evaluations             = 37
+Number of objective gradient evaluations             = 8
+Number of equality constraint evaluations            = 37
+Number of inequality constraint evaluations          = 37
+Number of equality constraint Jacobian evaluations   = 33
+Number of inequality constraint Jacobian evaluations = 33
+Number of Lagrangian Hessian evaluations             = 32
+Total CPU secs in IPOPT (w/o function evaluations)   =      2.971
+Total CPU secs in NLP function evaluations           =      0.500
+
+EXIT: Converged to a point of local infeasibility. Problem may be infeasible.
+NLP0014I             2      INFEAS 0.2475       31 3.471
+Cbc0006I The LP relaxation is infeasible or too expensive
+
+Bonmin finished. No feasible solution found.
+
+Best possible:   2.475000e-001   (only reliable for convex models)
+--- Restarting execution
+--- uc_polar_reactive.gms(763) 14 Mb
+--- Reading solution for model uc_ac
+--- uc_polar_reactive.gms(763) 15 Mb
+--- Executing after solve: elapsed 0:00:07.503
+--- uc_polar_reactive.gms(787) 15 Mb
+*** Status: Normal completion
+--- Job uc_polar_reactive.gms Stop 03/31/21 21:26:48 elapsed 0:00:07.506

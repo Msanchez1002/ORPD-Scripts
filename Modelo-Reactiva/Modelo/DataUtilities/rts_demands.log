@@ -1,0 +1,25 @@
+
+--- Job rts_demands.gms Start 03/06/21 16:44:41 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- rts_demands.gms(32) 3 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\case30.gdx
+--- rts_demands.gms(144) 3 Mb
+--- Starting execution: elapsed 0:00:00.020
+--- rts_demands.gms(95) 4 Mb
+--- Putfile fx1 renamed: rtslist.out
+--- rts_demands.gms(98) 4 Mb
+--- GDX File C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\case30_winter_wday.gdx
+--- GDX File C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\case30_winter_wend.gdx
+--- GDX File C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\case30_summer_wday.gdx
+--- GDX File C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\case30_summer_wend.gdx
+--- GDX File C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\case30_spring_wday.gdx
+--- GDX File C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\case30_spring_wend.gdx
+--- Putfile fx1 C:\Users\Jairo\Desktop\Modelo\DataUtilities\rtslist.out
+--- Putfile fx2 C:\Users\Jairo\Desktop\Modelo\DataUtilities\fx2.put
+*** Status: Normal completion
+--- Job rts_demands.gms Stop 03/06/21 16:44:41 elapsed 0:00:00.105

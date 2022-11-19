@@ -1,0 +1,75 @@
+B 2 C o m p i l a t i o n
+B 852 Include File Summary
+B 871 Equation Listing    SOLVE uc_ac Using MINLP From line 763
+D 872 c_LinePij
+D 902 c_LinePji
+D 931 c_LineQij
+D 960 c_LineQji
+D 989 c_BalanceP
+D 1006 c_BalanceQ
+D 1026 c_GenStatusMin
+D 1043 c_GenStatusMax
+D 1060 c_GenStatusQMin
+D 1071 c_GenStatusQMax
+D 1082 c_ManeuverShuntP
+D 1097 c_ManeuverShuntN
+D 1110 c_ManeuverTapP
+D 1126 c_ManeuverTapN
+D 1142 c_BinShunt
+D 1153 c_BinTap
+D 1164 c_InterfaceP
+D 1170 c_InterfaceLimit
+D 1175 c_anglediffIJ
+D 1189 c_anglediffJI
+D 1203 c_obj
+B 1212 Column Listing      SOLVE uc_ac Using MINLP From line 763
+E 1213 V_P
+E 1233 V_Q
+E 1255 V_Theta
+E 1322 V_LineP
+E 1341 V_LineQ
+E 1360 V_genstatus
+E 1382 V_shunt
+E 1407 V_V
+E 1456 V_ratio
+E 1481 V_Uratio
+E 1503 V_Ushunt
+E 1525 V_objcost
+B 1534 Model Statistics    SOLVE uc_ac Using MINLP From line 763
+B 1552 Solution Report     SOLVE uc_ac Using MINLP From line 763
+F 1582 c_LinePij
+F 3027 c_LinePji
+F 4472 c_LineQij
+F 5917 c_LineQji
+F 7362 c_BalanceP
+F 8243 c_BalanceQ
+F 9124 c_GenStatusMin
+F 10317 c_GenStatusMax
+F 11510 c_GenStatusQMin
+F 12703 c_GenStatusQMax
+F 13896 c_ManeuverShuntP
+F 14777 c_ManeuverShuntN
+F 15658 c_ManeuverTapP
+F 15843 c_ManeuverTapN
+F 16028 c_BinShunt
+F 16909 c_BinTap
+F 17095 c_InterfaceP
+F 17100 c_InterfaceLimit
+F 17105 c_anglediffIJ
+F 18406 c_anglediffJI
+F 19705 c_obj
+G 19706 V_P
+G 20899 V_Q
+G 22092 V_Theta
+G 22973 V_LineP
+G 25859 V_LineQ
+G 28745 V_genstatus
+G 29938 V_shunt
+G 30819 V_V
+G 31700 V_ratio
+G 33145 V_Uratio
+G 33330 V_Ushunt
+G 34211 V_objcost
+B 34226 E x e c u t i o n
+I 34229 infeas
+I 34232 lines_at_limit

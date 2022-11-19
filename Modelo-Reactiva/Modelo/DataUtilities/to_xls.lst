@@ -1,0 +1,207 @@
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/27/21 13:37:52 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   3   
+   6   
+   7  sets costcoefset /1*40/, bus, gen, circuit, line;
+   8  parameter  baseMVA;
+   9  alias(bus,i,j);
+  10  alias(circuit,c);
+  11   
+  12  * We won't be writing any 3-winding transformers because it's
+  13  * too hard to go through and find the imaginary star bus if one exists.
+  14  set translines /1*4/;
+  15  alias(translines,tl);
+  16  parameters busmatrix(bus,*), loadmatrix(bus,*), genmatrix(gen,*),
+  17             branchmatrix(i,j,c,*), transmatrix(i,j,c,translines,*);
+  18   
+  19  sets bus_t, bus_s, gen_t, gen_s, branch_t, branch_s;
+  20  parameters businfo(bus,bus_t,bus_s), geninfo(gen,gen_t,gen_s), branchinfo(
+      i,j,c,branch_t,branch_s);
+  21   
+  22   
+GDXIN   C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\rts96_spring_wday.gdx
+--- LOAD  baseMVA = 26:baseMVA
+--- LOAD  bus = 3:bus
+--- LOAD  gen = 4:gen
+--- LOAD  circuit = 5:circuit
+--- LOAD  line = 22:line
+--- LOAD  bus_t = 13:bus_t
+--- LOAD  bus_s = 14:bus_s
+--- LOAD  gen_t = 15:gen_t
+--- LOAD  gen_s = 16:gen_s
+--- LOAD  branch_t = 17:branch_t
+--- LOAD  branch_s = 18:branch_s
+--- LOAD  businfo = 28:businfo
+--- LOAD  geninfo = 29:geninfo
+--- LOAD  branchinfo = 31:branchinfo
+  28   
+  30  parameter version;
+  31  version = Jnow;
+  32   
+  33  busmatrix(bus,'NAME') = bus.val;
+  34  busmatrix(bus,'BASKV') = businfo(bus,'baseKV','given') + eps;
+  35  busmatrix(bus,'IDE') = businfo(bus,'type','given') + eps;
+  36  busmatrix(bus,'GL') = businfo(bus,'Gs','given') + eps;
+  37  busmatrix(bus,'BL') = businfo(bus,'Bs','given') + eps;
+  38  busmatrix(bus,'AREA') = businfo(bus,'area','given') + eps;
+  39  busmatrix(bus,'ZONE') = businfo(bus,'zone','given') + eps;
+  40  busmatrix(bus,'VM') = businfo(bus,'Vm','given') + eps;
+  41  busmatrix(bus,'VA') = businfo(bus,'Va','given') + eps;
+  42  busmatrix(bus,'OWNER') = 1;
+  43   
+  44  loadmatrix(bus,'I') = bus.val;
+  45  loadmatrix(bus,'ID') = 1;
+  46  loadmatrix(bus,'STATUS') = 1;
+  47  loadmatrix(bus,'AREA') = businfo(bus,'area','given') + eps;
+  48  loadmatrix(bus,'ZONE') = businfo(bus,'zone','given') + eps;
+  49  loadmatrix(bus,'PL') = businfo(bus,'Pd','given') + eps;
+  50  loadmatrix(bus,'QL') = businfo(bus,'Qd','given') + eps;
+  51  loadmatrix(bus,'IP') = eps;
+  52  loadmatrix(bus,'IQ') = eps;
+  53  loadmatrix(bus,'YP') = eps;
+  54  loadmatrix(bus,'YQ') = eps;
+  55  loadmatrix(bus,'OWNER') = 1;
+  56  loadmatrix(bus,'SHARE') = 1;
+  57   
+  58  genmatrix(gen,'I') = geninfo(gen,'atbus','given') + eps;
+  59  genmatrix(gen,'ID') = gen.ord;
+  60  genmatrix(gen,'Pg') = geninfo(gen,'Pg','given') + eps;
+  61  genmatrix(gen,'Qq') = geninfo(gen,'Qg','given') + eps;
+  62  genmatrix(gen,'QT') = geninfo(gen,'Qmax','given') + eps;
+  63  genmatrix(gen,'QB') = geninfo(gen,'Qmin','given') + eps;
+  64  genmatrix(gen,'VS') = geninfo(gen,'Vg','given') + eps;
+  65  genmatrix(gen,'IREG') = eps;
+  66  genmatrix(gen,'MBASE') = geninfo(gen,'mBase','given') + eps;
+  67  genmatrix(gen,'ZR') = eps;
+  68  genmatrix(gen,'ZX') = 1;
+  69  genmatrix(gen,'RT') = eps;
+  70  genmatrix(gen,'XT') = eps;
+  71  genmatrix(gen,'GTAP') = 1;
+  72  genmatrix(gen,'STAT') = geninfo(gen,'status','given') + eps;
+  73  genmatrix(gen,'RMPCT') = 100;
+  74  genmatrix(gen,'PT') = geninfo(gen,'Pmax','given') + eps;
+  75  genmatrix(gen,'PB') = geninfo(gen,'Pmin','given') + eps;
+  76  genmatrix(gen,'Oi') = 1;
+  77  genmatrix(gen,'Fi') = 1;
+  78   
+  79  loop((i,j,c)$(line(i,j,c) and (branchinfo(i,j,c,'ratio','given') eq 1) and
+       (branchinfo(i,j,c,'angle','given') eq 0)),
+  80      branchmatrix(i,j,c,'I') = i.val;
+  81      branchmatrix(i,j,c,'J') = j.val;
+  82      branchmatrix(i,j,c,'CKT') = c.val;
+  83      branchmatrix(i,j,c,'R') = branchinfo(i,j,c,'r','given') + eps;
+  84      branchmatrix(i,j,c,'X') = branchinfo(i,j,c,'x','given') + eps;
+  85      branchmatrix(i,j,c,'B') = branchinfo(i,j,c,'bc','given') + eps;
+  86      branchmatrix(i,j,c,'RATEA') = branchinfo(i,j,c,'rateA',"given") + eps;
+  87      branchmatrix(i,j,c,'RATEB') = branchinfo(i,j,c,'rateB',"given") + eps;
+  88      branchmatrix(i,j,c,'RATEC') = branchinfo(i,j,c,'rateC',"given") + eps;
+  89      branchmatrix(i,j,c,'GI') = eps;
+  90      branchmatrix(i,j,c,'BI') = eps;
+  91      branchmatrix(i,j,c,'GJ') = eps;
+  92      branchmatrix(i,j,c,'BJ') = eps;
+  93      branchmatrix(i,j,c,'ST') = branchinfo(i,j,c,'branchstatus','given') + 
+      eps;
+  94      branchmatrix(i,j,c,'LEN') = eps;
+  95      branchmatrix(i,j,c,'Oi') = 1;
+  96      branchmatrix(i,j,c,'Fi') = 1;
+  97  )
+  98   
+  99  loop((i,j,c)$(line(i,j,c) and ((branchinfo(i,j,c,'ratio','given') ne 1) or
+       (branchinfo(i,j,c,'angle','given') ne 0))),
+ 100      transmatrix(i,j,c,'1','I') = i.val;
+ 101      transmatrix(i,j,c,'1','J') = j.val;
+ 102      transmatrix(i,j,c,'1','K') = eps;
+ 103      transmatrix(i,j,c,'1','CKT') = c.val;
+ 104      transmatrix(i,j,c,'1','CW') = 1;
+ 105      transmatrix(i,j,c,'1','CZ') = 1;
+ 106      transmatrix(i,j,c,'1','CM') = 1;
+ 107      transmatrix(i,j,c,'1','MAG1') = eps;
+ 108      transmatrix(i,j,c,'1','MAG2') = eps;
+ 109      transmatrix(i,j,c,'1','NMETR') = 2;
+ 110      transmatrix(i,j,c,'1','NAME') = eps;
+ 111      transmatrix(i,j,c,'1','STAT') = branchinfo(i,j,c,'branchstatus','given
+      ') + eps;
+ 112      transmatrix(i,j,c,'1','Oi') = 1;
+ 113      transmatrix(i,j,c,'1','Fi') = 1;
+ 114      transmatrix(i,j,c,'2','R1-2') = branchinfo(i,j,c,'r','given') + eps;
+ 115      transmatrix(i,j,c,'2','X1-2') = branchinfo(i,j,c,'x','given') + eps;
+ 116      transmatrix(i,j,c,'2','SBASE1-2') = baseMVA;
+ 117      transmatrix(i,j,c,'3','WINDV1') = branchinfo(i,j,c,'ratio','given') + 
+      eps;
+ 118      transmatrix(i,j,c,'3','NOMV1') = eps;
+ 119      transmatrix(i,j,c,'3','ANG1') = branchinfo(i,j,c,'angle','given') + ep
+      s;
+ 120      transmatrix(i,j,c,'3','RATEA') = branchinfo(i,j,c,'rateA',"given") + e
+      ps;
+ 121      transmatrix(i,j,c,'3','RATEB') = branchinfo(i,j,c,'rateB',"given") + e
+      ps;
+ 122      transmatrix(i,j,c,'3','RATEC') = branchinfo(i,j,c,'rateC',"given") + e
+      ps;
+ 123      transmatrix(i,j,c,'3','COD1') = eps;
+ 124      transmatrix(i,j,c,'3','CONT1') = eps;
+ 125      transmatrix(i,j,c,'3','RMA1') = businfo(i,'maxVM','given') + eps;
+ 126      transmatrix(i,j,c,'3','RMI1') = businfo(i,'minVM','given') + eps;
+ 127      transmatrix(i,j,c,'3','VMA1') = businfo(i,'maxVM','given') + eps;
+ 128      transmatrix(i,j,c,'3','VMI1') = businfo(i,'minVM','given') + eps;
+ 129      transmatrix(i,j,c,'3','NTP1') = 33;
+ 130      transmatrix(i,j,c,'3','TAB1') = eps;
+ 131      transmatrix(i,j,c,'3','CR1') = eps;
+ 132      transmatrix(i,j,c,'3','CX1') = eps;
+ 133      transmatrix(i,j,c,'4','WINDV2') = 1;
+ 134      transmatrix(i,j,c,'4','NOMV2') = eps;
+ 135  )
+ 136   
+ 137  execute_unload 'C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+      ' version, baseMVA, busmatrix, loadmatrix,
+ 138                                  genmatrix, branchmatrix, transmatrix;
+ 139  execute "gdxxrw C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+       epsout=0 o=rts96_spring_wday.xlsx par=version rng=Version!A1";
+ 140  execute "gdxxrw C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+       epsout=0 o=rts96_spring_wday.xlsx par=baseMVA rng=baseMVA!A1";
+ 141  execute "gdxxrw C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+       epsout=0 o=rts96_spring_wday.xlsx par=busmatrix rng=BusData!A1";
+ 142  execute "gdxxrw C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+       epsout=0 o=rts96_spring_wday.xlsx par=loadmatrix rng=LoadData!A1";
+ 143  execute "gdxxrw C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+       epsout=0 o=rts96_spring_wday.xlsx par=genmatrix rng=GeneratorData!A1";
+ 144  execute "gdxxrw C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+       epsout=0 o=rts96_spring_wday.xlsx par=branchmatrix rng=BranchData!A1";
+ 145  execute "gdxxrw C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx
+       epsout=0 o=rts96_spring_wday.xlsx par=transmatrix rng=TransformerData!A1"
+      ;
+ 146  execute "rm C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\excel_temp.gdx"
+ 147   
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/27/21 13:37:52 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  C:\Users\Jairo\Desktop\Modelo\DataUtil
+                                          ities\to_xls.gms
+     2       23 GDXIN          1      23  C:\Users\Jairo\Desktop\Modelo\Testcase
+                                          s_gdx\rts96_spring_wday.gdx
+
+
+COMPILATION TIME     =        0.000 SECONDS      4 MB  24.9.2 r64480 WEX-WEI
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/27/21 13:37:52 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+EXECUTION TIME       =        9.422 SECONDS      4 MB  24.9.2 r64480 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G170728:0528AO-GEN
+      Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\Jairo\Desktop\Modelo\DataUtilities\to_xls.gms
+Output     C:\Users\Jairo\Desktop\Modelo\DataUtilities\to_xls.lst

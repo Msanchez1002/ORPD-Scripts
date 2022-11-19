@@ -1,0 +1,10 @@
+[CHART]
+VERID=GAMSIDE Chart(s) V1
+GDXFILE=case118_spring_wday_AC_UC_solution_AC_UC_solution.gdx
+TITLE=businfo
+
+[SERIES1]
+SYMBOL=businfo
+TYPE=multi-bar
+MAP=2,1,3
+FILTER=*,"switchedBsSolved",*

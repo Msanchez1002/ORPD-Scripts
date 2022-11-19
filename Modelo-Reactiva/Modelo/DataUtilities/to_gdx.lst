@@ -1,0 +1,48 @@
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 03/04/21 12:00:53 Page 1
+"Data conversion utility for ACOPF models"
+C o m p i l a t i o n
+
+
+   4   
+   9   
+  14   
+  19  if(errorlevel ne 0, abort "Creating E:\PSSE\rts96_summer_wday_3.gdxraw tem
+      p file failed!");
+  20   
+  22  execute 'gams C:\Users\Jairo\Downloads\Prueba\DataUtilities\raw2gdx.gms lo
+      =3 gdxcompress=1 --raw="E:\PSSE\rts96_summer_wday_3.gdxraw" gdx="E:\PSSE\r
+      ts96_summer_wday_3.gdx" --monitorall=1 profile=1 stepsum=1'
+  23  if(errorlevel ne 0, abort "raw2gdx failed!");
+  24  execute 'gams C:\Users\Jairo\Downloads\Prueba\DataUtilities\save_domain_in
+      fo.gms gdx="E:\PSSE\rts96_summer_wday_3.gdx" --in="E:\PSSE\rts96_summer_wd
+      ay_3.gdxraw"'
+  25  if(errorlevel ne 0, abort "Save domain info failed!");
+  27  execute 'rm "E:\PSSE\rts96_summer_wday_3.gdxraw.gdx"'
+  28   
+  30   
+
+
+COMPILATION TIME     =        0.000 SECONDS      2 MB  24.9.2 r64480 WEX-WEI
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 03/04/21 12:00:53 Page 2
+"Data conversion utility for ACOPF models"
+E x e c u t i o n
+
+
+----     23 raw2gdx failed!
+**** Exec Error at line 23: Execution halted: abort 'raw2gdx failed!'
+
+
+EXECUTION TIME       =        0.422 SECONDS      3 MB  24.9.2 r64480 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G170728:0528AO-GEN
+      Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\Jairo\Downloads\Prueba\DataUtilities\to_gdx.gms
+Output     C:\Users\Jairo\Desktop\Modelo\DataUtilities\to_gdx.lst
+
+**** USER ERROR(S) ENCOUNTERED

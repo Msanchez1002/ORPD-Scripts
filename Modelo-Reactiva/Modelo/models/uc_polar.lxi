@@ -1,0 +1,78 @@
+B 2 C o m p i l a t i o n
+B 823 Include File Summary
+B 841 E x e c u t i o n
+I 842 rampup
+I 867 rampdown
+I 891 minuptime
+I 912 mindowntime
+B 935 Equation Listing    SOLVE uc_ac Using MINLP From line 726
+D 936 c_LinePij
+D 966 c_LinePji
+D 995 c_LineQij
+D 1024 c_LineQji
+D 1053 c_BalanceP
+D 1073 c_BalanceQ
+D 1093 c_GenStatusMin
+D 1110 c_GenStatusMax
+D 1121 c_GenStatusQMin
+D 1132 c_GenStatusQMax
+D 1143 c_StartupShutdown
+D 1160 c_MinUptime
+D 1171 c_MinDowntime
+D 1182 c_RampUp
+D 1199 c_RampDown
+D 1216 c_InterfaceP
+D 1222 c_InterfaceLimit
+D 1227 c_anglediffIJ
+D 1241 c_anglediffJI
+D 1255 c_pw_cost
+D 1271 c_obj
+B 4142 Column Listing      SOLVE uc_ac Using MINLP From line 726
+E 4143 V_P
+E 4185 V_Q
+E 4207 V_Theta
+E 4274 V_LineP
+E 4293 V_LineQ
+E 4312 V_genstatus
+E 4359 V_startup
+E 4383 V_shutdown
+E 4404 V_V
+E 4453 V_pw_cost
+E 4478 V_objcost
+B 4487 Model Statistics    SOLVE uc_ac Using MINLP From line 726
+B 4505 Solution Report     SOLVE uc_ac Using MINLP From line 726
+F 4548 c_LinePij
+F 7433 c_LinePji
+F 10318 c_LineQij
+F 13203 c_LineQji
+F 16088 c_BalanceP
+F 17845 c_BalanceQ
+F 19602 c_GenStatusMin
+F 21983 c_GenStatusMax
+F 24364 c_GenStatusQMin
+F 26745 c_GenStatusQMax
+F 29126 c_StartupShutdown
+F 31507 c_MinUptime
+F 33888 c_MinDowntime
+F 36269 c_RampUp
+F 38551 c_RampDown
+F 40834 c_InterfaceP
+F 40839 c_InterfaceLimit
+F 40844 c_anglediffIJ
+F 43441 c_anglediffJI
+F 46038 c_pw_cost
+F 53169 c_obj
+G 53170 V_P
+G 55551 V_Q
+G 57932 V_Theta
+G 59689 V_LineP
+G 65455 V_LineQ
+G 71221 V_genstatus
+G 73602 V_startup
+G 75983 V_shutdown
+G 78364 V_V
+G 80121 V_pw_cost
+G 82502 V_objcost
+B 82517 E x e c u t i o n
+I 82520 infeas
+I 82522 lines_at_limit

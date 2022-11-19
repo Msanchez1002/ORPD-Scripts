@@ -1,0 +1,16 @@
+
+--- Job to_psse.gms Start 02/27/21 21:16:34 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- to_psse.gms(16) 3 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\rts96_summer_wday.gdx
+--- to_psse.gms(105) 4 Mb
+--- Starting execution: elapsed 0:00:00.008
+--- to_psse.gms(104) 5 Mb
+--- Putfile o E:\PSSE\rts96_summer_wday.raw
+*** Status: Normal completion
+--- Job to_psse.gms Stop 02/27/21 21:16:34 elapsed 0:00:00.011

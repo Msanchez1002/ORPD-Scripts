@@ -1,0 +1,99 @@
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows                                                                                                                                                                 02/27/21 13:23:05 Page 1
+"Rewrite GDX files including all domain info (must be called with gdx=*)"
+C o m p i l a t i o n
+
+
+   2   
+   5   
+   6  sets
+   7      ints,
+   8      t,
+   9      bus,
+  10      gen,
+  11      circuit,
+  12      fuel_t, fuel_s, prime_mover,
+  13      demandbid, demandbidmap(demandbid,bus),
+  14      interface, interfacemap(interface,bus,bus),
+  15      bus_t, bus_s,
+  16      gen_t, gen_s,
+  17      branch_t, branch_s,
+  18      demandbid_t, demandbid_s
+  19      interface_t,
+  20      line(bus,bus,circuit),
+  21      transformer(bus,bus,circuit),
+  22      monitored_lines(bus,bus,circuit)
+  23  ;
+  24   
+  25  parameters version, baseMVA, total_cost;
+  26  parameters businfo(bus,bus_t,bus_s), geninfo(gen,gen_t,gen_s),
+  27             fuelinfo(fuel_t,fuel_s),
+  28             branchinfo(bus,bus,circuit,branch_t,branch_s),
+  29             demandbidinfo(demandbid,t,demandbid_t,demandbid_s),
+  30             interfaceinfo(interface,t,interface_t);
+  31   
+GDXIN   C:\Users\Jairo\Desktop\Modelo\models\rts96_summer_wday_AC_UC_solution.gdxtemp
+--- LOAD  version = 1:version
+--- LOAD  baseMVA = 3:baseMVA
+--- LOAD  total_cost = 2:total_cost
+--- LOAD  ints = 4:ints
+--- LOAD  t = 5:t
+--- LOAD  bus = 6:bus
+--- LOAD  gen = 7:gen
+--- LOAD  circuit = 8:circuit
+--- LOAD  line = 9:line
+--- LOAD  transformer = 10:transformer
+--- LOAD  monitored_lines = 11:monitored_lines
+--- LOAD  bus_t = 16:bus_t
+--- LOAD  bus_s = 17:bus_s
+--- LOAD  gen_t = 18:gen_t
+--- LOAD  gen_s = 19:gen_s
+--- LOAD  branch_t = 20:branch_t
+--- LOAD  branch_s = 21:branch_s
+--- LOAD  demandbid_t = 25:demandbid_t
+--- LOAD  demandbid_s = 26:demandbid_s
+--- LOAD  interface_t = 27:interface_t
+--- LOAD  fuel_t = 22:fuel_t
+--- LOAD  fuel_s = 23:fuel_s
+--- LOAD  prime_mover = 24:prime_mover
+--- LOAD  businfo = 28:businfo
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows                                                                                                                                                                 02/27/21 13:23:05 Page 2
+"Rewrite GDX files including all domain info (must be called with gdx=*)"
+C o m p i l a t i o n
+
+
+--- LOAD  geninfo = 29:geninfo
+--- LOAD  branchinfo = 30:branchinfo
+--- LOAD  fuelinfo = 33:fuelinfo
+--- LOAD  demandbid = 12:demandbid
+--- LOAD  demandbidmap = 13:demandbidmap
+--- LOAD  demandbidinfo = 31:demandbidinfo
+--- LOAD  interface = 14:interface
+--- LOAD  interfacemap = 15:interfacemap
+--- LOAD  interfaceinfo = 32:interfaceinfo
+  42   
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows                                                                                                                                                                 02/27/21 13:23:05 Page 3
+"Rewrite GDX files including all domain info (must be called with gdx=*)"
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  C:\Users\Jairo\Desktop\Modelo\models\save_domain_info.gms
+     2       32 GDXIN          1      32  C:\Users\Jairo\Desktop\Modelo\models\rts96_summer_wday_AC_UC_solution.gdxtemp
+
+
+COMPILATION TIME     =        0.000 SECONDS      5 MB  24.9.2 r64480 WEX-WEI
+
+
+EXECUTION TIME       =        0.016 SECONDS      5 MB  24.9.2 r64480 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G170728:0528AO-GEN
+      Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\Jairo\Desktop\Modelo\models\save_domain_info.gms
+Output     C:\Users\Jairo\Desktop\Modelo\models\save_domain_info.lst

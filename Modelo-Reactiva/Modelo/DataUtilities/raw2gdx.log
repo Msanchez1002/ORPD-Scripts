@@ -1,0 +1,17 @@
+
+--- Job raw2gdx.gms Start 03/04/21 12:01:23 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+***
+*** Abort "No input file selected..."
+***
+*** Error 343 in C:\Users\Jairo\Downloads\Prueba\DataUtilities\raw2gdx.gms
+    Abort triggered by above statement
+--- raw2gdx.gms(3) 2 Mb 1 Error
+*** Status: Compilation error(s)
+--- Job raw2gdx.gms Stop 03/04/21 12:01:23 elapsed 0:00:00.004
+Exit code = 2

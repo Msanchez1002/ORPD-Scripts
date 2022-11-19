@@ -1,0 +1,172 @@
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/27/21 21:16:34 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   3   
+   7   
+   8  sets    shunt_set /1*40/, bus, gen, circuit, line;
+   9  parameter  baseMVA;
+  10  alias(bus,i,j);
+  11  alias(circuit,c);
+  12   
+  13  sets bus_t, bus_s, gen_t, gen_s, branch_t, branch_s;
+  14  parameters businfo, geninfo, branchinfo;
+  15   
+GDXIN   C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\rts96_summer_wday.gdx
+--- LOAD  baseMVA = 26:baseMVA
+--- LOAD  bus = 3:bus
+--- LOAD  gen = 4:gen
+--- LOAD  circuit = 5:circuit
+--- LOAD  line = 22:line
+--- LOAD  bus_t = 13:bus_t
+--- LOAD  bus_s = 14:bus_s
+--- LOAD  gen_t = 15:gen_t
+--- LOAD  gen_s = 16:gen_s
+--- LOAD  branch_t = 17:branch_t
+--- LOAD  branch_s = 18:branch_s
+--- LOAD  businfo = 28:businfo
+--- LOAD  geninfo = 29:geninfo
+--- LOAD  branchinfo = 31:branchinfo
+  21   
+  23  parameter y,m,d,n;
+  24  n = Jnow;
+  25  y = gyear(n);
+  26  m = gmonth(n);
+  27  d = gday(n);
+  28   
+  29  file o /"E:\PSSE\rts96_summer_wday.raw"/;
+  30  o.pw = 10000;
+  31  o.pc = 8;
+  32  put o;
+  33  put " 0, ", baseMVA::6/;
+  34  put "rts96_summer_wday.raw / File written by to_psse.gms"/;
+  35  put m::0, "/", d::0, "/", y::0/;
+  36  loop(bus,
+  37    put " ", bus.val::0, ", '", bus.val::0, "', ", businfo(bus,'baseKV','giv
+      en')::6, ", ",
+  38        businfo(bus,'type','given')::0, ", ", businfo(bus,'Gs','given')::6, 
+      ", ", businfo(bus,'Bs','given')::6, ", ",
+  39        businfo(bus,'area','given')::0, ", ", businfo(bus,'zone','given')::0
+      , ", ", businfo(bus,'Vm','1')::6, ", ", businfo(bus,'Va','1')::6
+  40    /;
+  41  );
+  42  put "0 / END OF BUS DATA, BEGIN LOAD DATA"/;
+  43  loop(bus,
+  44    put " ", bus.val::0, ", '1 ', 1, ", businfo(bus,'area','given')::0, ", "
+      , businfo(bus,'zone','given')::0, ", ",
+  45        businfo(bus,'Pd','1')::6, ", ", businfo(bus,'Qd','1')::6, ", 0, 0, 0
+      , 0, 1, 1"
+  46    /;
+  47  );
+  48  put "0 / END OF LOAD DATA, BEGIN FIXED SHUNT DATA"/;
+  49  put "0 / END OF FIXED SHUNT DATA DATA, BEGIN GENERATOR DATA"/;
+  50  * Ramp rates don"t have a place in PSSE raw?
+  51  loop(gen,
+  52    put " ", geninfo(gen,'atBus','given')::0, ", ", gen.ord::0, ", ", geninf
+      o(gen,'Pg','1')::6, ", ", geninfo(gen,'Qg','1')::6, ", ",
+  53        geninfo(gen,'Qmax','given')::6, ", ", geninfo(gen,'Qmin','given')::6
+      , ", ", geninfo(gen,'Vg','given')::6, ", 0, ",
+  54        geninfo(gen,'mBase','given')::6, ", 0, 1, 0, 0, 1, ", geninfo(gen,'s
+      tatus','1')::0, ", 100, ",
+  55        geninfo(gen,'Pmax','given')::6, ", ", geninfo(gen,'Pmin','given')::6
+      , ", 1, 1"
+  56    /;
+  57  );
+  58  put "0 / END OF GENERATOR DATA, BEGIN BRANCH DATA"/;
+  59  loop((i,j,c)$(line(i,j,c) and (branchinfo(i,j,c,'ratio','given') eq 1) and
+       (branchinfo(i,j,c,'angle','given') eq 0)),
+  60    put " ", i.val::0, ", ", j.val::0, ", ", c.val::0, ", ",
+  61        branchinfo(i,j,c,'r','given')::6, ", ", branchinfo(i,j,c,'x','given'
+      )::6, ", ", branchinfo(i,j,c,'bc','given')::6, ", ",
+  62        branchinfo(i,j,c,'rateA',"given")::6, ", ", branchinfo(i,j,c,'rateB'
+      ,"given")::6, ", ", branchinfo(i,j,c,'rateC',"given")::6, ", ",
+  63        "0, 0, 0, 0, ", branchinfo(i,j,c,'branchstatus','1')::0, ", 0, 1, 1"
+  64    /;
+  65  );
+  66  put "0 / END OF BRANCH DATA, BEGIN TRANSFORMER DATA"/;
+  67  * Angle should still be in degrees in the GDX files?
+  68  loop((i,j,c)$(line(i,j,c) and ((branchinfo(i,j,c,'ratio','given') ne 1) or
+       (branchinfo(i,j,c,'angle','given') ne 0))),
+  69    put " ", i.val::0, ", ", j.val::0, ", 0, ", c.val::0, ", 1, 1, 1, 0, 0, 
+      2, '            ', ",
+  70        branchinfo(i,j,c,'branchstatus','1')::0, ", 1, 1"
+  71        /
+  72        "  ", branchinfo(i,j,c,'r','given')::6, ", ", branchinfo(i,j,c,'x','
+      given')::6, ", ", baseMVA::6
+  73        /
+  74        "  ", branchinfo(i,j,c,'ratio','given')::6, ", 0, ", branchinfo(i,j,
+      c,'angle','given')::6, ", ",
+  75        branchinfo(i,j,c,'rateA',"given")::6, ", ", branchinfo(i,j,c,'rateB'
+      ,'given')::6, ", ", branchinfo(i,j,c,'rateC','given')::6, ", 0, 0, ",
+  76        businfo(i,'maxVM','given'), ", ", businfo(i,'minVM','given'), ", ", 
+      businfo(i,'maxVM','given'), ", ", businfo(i,'minVM','given'), ", 33, 0, 0,
+       0"
+  77        /
+  78        "   1.000000, 0"
+  79    /;
+  80  );
+  81  put "0 / END OF TRANSFORMER DATA, BEGIN AREA DATA"/;
+  82  * Area data not implemented -- can we just leave this out?
+  83  put "0 / END OF AREA DATA, BEGIN TWO-TERMINAL DC DATA"/;
+  84  put "0 / END OF TWO-TERMINAL DC DATA, BEGIN VSC DC LINE DATA"/;
+  85  put "0 / END OF VSC DC LINE DATA, BEGIN SWITCHED SHUNT DATA"/;
+  86  loop(bus$(businfo(bus,'numswitchedshunts','given') > 0),
+  87      put " ", bus.val::0, ", 0, ", businfo(bus,'maxVm','given')::5, ", ",
+  88          businfo(bus,'minVm','given')::5, ", 0, ", businfo(bus,'switchedBs'
+      ,'given')::5;
+  89      loop(shunt_set$(ord(shunt_set) le businfo(bus,'numswitchedshunts','giv
+      en')),
+  90          put ", ", businfo(bus,'switchedelements',shunt_set)::0, ", ", busi
+      nfo(bus,'switchedBs',shunt_set)::5;
+  91      );
+  92      put /;
+  93  );
+  94  put "0 / END OF SWITCHED SHUNT DATA, BEGIN IMPEDANCE CORRECTION DATA"/;
+  95  put "0 / END OF IMPEDANCE CORRECTION DATA, BEGIN MULTI-TERMINAL DC DATA"/;
+  96  put "0 / END OF MULTI-TERMINAL DC DATA, BEGIN MULTI-SECTION LINE DATA"/;
+  97  put "0 / END OF MULTI-SECTION LINE DATA, BEGIN ZONE DATA"/;
+  98  put "0 / END OF ZONE DATA, BEGIN INTER-AREA TRANSFER DATA"/;
+  99  * Zone data not implemented -- can we just leave this out?
+ 100  put "0 / END OF INTER-AREA TRANSFER DATA, BEGIN OWNER DATA"/;
+ 101  put "0 / END OF OWNER DATA, BEGIN FACTS CONTROL DEVICE DATA"/;
+ 102  put "0 / END OF FACTS CONTROL DEVICE DATA"/;
+ 103  * Generator cost data not included in PSSE format?
+ 104  putclose o;
+ 105   
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/27/21 21:16:34 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  C:\Users\Jairo\Desktop\Modelo\DataUtil
+                                          ities\to_psse.gms
+     2       16 GDXIN          1      16  C:\Users\Jairo\Desktop\Modelo\Testcase
+                                          s_gdx\rts96_summer_wday.gdx
+
+
+COMPILATION TIME     =        0.000 SECONDS      4 MB  24.9.2 r64480 WEX-WEI
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 02/27/21 21:16:34 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+**** REPORT FILE SUMMARY
+
+o E:\PSSE\rts96_summer_wday.raw
+
+
+EXECUTION TIME       =        0.000 SECONDS      5 MB  24.9.2 r64480 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G170728:0528AO-GEN
+      Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\Jairo\Desktop\Modelo\DataUtilities\to_psse.gms
+Output     C:\Users\Jairo\Desktop\Modelo\DataUtilities\to_psse.lst

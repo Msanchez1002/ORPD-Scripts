@@ -1,0 +1,244 @@
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 03/06/21 16:44:41 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   3   
+   4  sets
+   5      ints,
+   6      t "Set of time periods (up to 24 for UC)" /1*24/,
+   7      bus,
+   8      gen,
+   9      circuit,
+  10      fuel_t, fuel_s, prime_mover,
+  11      demandbid, demandbidmap(demandbid,bus),
+  12      interface, interfacemap(interface,bus,bus),
+  13      bus_t, bus_s,
+  14      gen_t, gen_s,
+  15      branch_t, branch_s,
+  16      demandbid_t, demandbid_s
+  17      interface_t,
+  18      line(bus,bus,circuit),
+  19      transformer(bus,bus,circuit),
+  20      monitored_lines(bus,bus,circuit)
+  21  ;
+  22  alias(bus,i,j);
+  23  alias(circuit,c);
+  24   
+  25  parameters version, baseMVA, total_cost;
+  26  parameters businfo, geninfo,
+  27             fuelinfo,
+  28             branchinfo,
+  29             demandbidinfo,
+  30             interfaceinfo;
+  31   
+GDXIN   C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\case30.gdx
+--- LOAD  version = 25:version
+--- LOAD  baseMVA = 26:baseMVA
+--- LOAD  total_cost = 27:total_cost
+--- LOAD  ints = 1:ints
+--- LOAD  bus = 3:bus
+--- LOAD  gen = 4:gen
+--- LOAD  circuit = 5:circuit
+--- LOAD  line = 22:line
+--- LOAD  transformer = 23:transformer
+--- LOAD  monitored_lines = 24:monitored_lines
+--- LOAD  bus_t = 13:bus_t
+--- LOAD  bus_s = 14:bus_s
+--- LOAD  gen_t = 15:gen_t
+--- LOAD  gen_s = 16:gen_s
+--- LOAD  branch_t = 17:branch_t
+--- LOAD  branch_s = 18:branch_s
+--- LOAD  demandbid_t = 19:demandbid_t
+--- LOAD  demandbid_s = 20:demandbid_s
+--- LOAD  interface_t = 21:interface_t
+--- LOAD  fuel_t = 6:fuel_t
+--- LOAD  fuel_s = 7:fuel_s
+--- LOAD  prime_mover = 8:prime_mover
+--- LOAD  businfo = 28:businfo
+--- LOAD  geninfo = 29:geninfo
+--- LOAD  branchinfo = 31:branchinfo
+--- LOAD  fuelinfo = 30:fuelinfo
+--- LOAD  demandbid = 9:demandbid
+--- LOAD  demandbidmap = 10:demandbidmap
+--- LOAD  demandbidinfo = 32:demandbidinfo
+--- LOAD  interface = 11:interface
+--- LOAD  interfacemap = 12:interfacemap
+--- LOAD  interfaceinfo = 33:interfaceinfo
+  42  bus_s(t) = yes;
+  43  gen_s(t) = yes;
+  44  branch_s(t) = yes;
+  45  demandbid_s(t) = yes;
+  46   
+  47  *======= SECTION: Setup data
+  48  parameters
+  49      origPd(bus)
+  50      origQd(bus)
+  51  ;
+  52  origPd(bus) = businfo(bus,'Pd','1');
+  53  origQd(bus) = businfo(bus,'Qd','1');
+  54   
+  55  sets
+  56      season "Seasons" /winter, summer, spring /
+  57      daytype "Weekday or weekend" /wday, wend /
+  58  ;
+  59   
+  60  table hourlyload(t, season, daytype) "Hourly load percentages (out of 100)
+      "
+  61          winter.wday     winter.wend     summer.wday     summer.wend     sp
+      ring.wday  spring.wend
+  62  1       67              78              64              74              63
+                  75
+  63  2       63              72              60              70              62
+                  73
+  64  3       60              68              58              66              60
+                  69
+  65  4       59              66              56              65              58
+                  66
+  66  5       59              64              56              64              59
+                  65
+  67  6       60              65              58              62              65
+                  65
+  68  7       74              66              64              62              72
+                  68
+  69  8       86              70              76              66              85
+                  74
+  70  9       95              80              87              81              95
+                  83
+  71  10      96              88              95              86              99
+                  89
+  72  11      96              90              99              91              10
+      0           92
+  73  12      95              91              100             93              99
+                  94
+  74  13      95              90              99              93              93
+                  91
+  75  14      95              88              100             92              92
+                  90
+  76  15      93              87              100             91              90
+                  90
+  77  16      94              87              97              91              88
+                  86
+  78  17      99              91              96              92              90
+                  85
+  79  18      100             100             96              94              92
+                  88
+  80  19      100             99              93              95              96
+                  92
+  81  20      96              97              92              95              98
+                  100
+  82  21      91              94              92              100             96
+                  97
+  83  22      83              92              93              93              90
+                  95
+  84  23      73              87              87              88              80
+                  90
+  85  24      63              81              72              80              70
+                  85;
+  86   
+  87  *======= SECTION: Data calculation and file output
+  88  *--- Define output file
+  89  file
+  90      fx1
+  91      fx2 "Output file handle"
+  92  ;
+  93   
+  94  put fx1;
+  95  put_utility 'ren' /'rtslist.out'
+  96   
+  97  *loop((season,daytype)$(ord(season) eq 1),
+  98  loop((season,daytype),
+  99  * Calculate new information
+ 100      businfo(bus,'Pd',t) = 1.1*origPd(bus) * (hourlyload(t,season,daytype)/
+      100);
+ 101      businfo(bus,'Qd',t) = 1.1*origQd(bus) * (hourlyload(t,season,daytype)/
+      100);
+ 102      businfo(bus,'Vm',t) = 1;
+ 103      businfo(bus,'Va',t) = 0;
+ 104   
+ 105      geninfo(gen,'status',t) = geninfo(gen,'status','1');
+ 106      branchinfo(i,j,c,'branchstatus',t) = branchinfo(i,j,c,'branchstatus','
+      1');
+ 107   
+ 108      geninfo(gen,'MTTF','given') = 2940$(geninfo(gen,'Pmax','given') eq 12)
+ 109                               +  450$(geninfo(gen,'Pmax','given') eq 20)
+ 110                               + 1980$(geninfo(gen,'Pmax','given') eq 50)
+ 111                               + 1960$(geninfo(gen,'Pmax','given') eq 76)
+ 112                               + 1200$(geninfo(gen,'Pmax','given') eq 100)
+ 113                               +  960$(geninfo(gen,'Pmax','given') eq 155)
+ 114                               +  950$(geninfo(gen,'Pmax','given') eq 197)
+ 115                               + 1150$(geninfo(gen,'Pmax','given') eq 350)
+ 116                               + 1100$(geninfo(gen,'Pmax','given') eq 400);
+ 117   
+ 118      geninfo(gen,'MTTR','given') =  60$(geninfo(gen,'Pmax','given') eq 12)
+ 119                               +  50$(geninfo(gen,'Pmax','given') eq 20)
+ 120                               +  20$(geninfo(gen,'Pmax','given') eq 50)
+ 121                               +  40$(geninfo(gen,'Pmax','given') eq 76)
+ 122                               +  50$(geninfo(gen,'Pmax','given') eq 100)
+ 123                               +  40$(geninfo(gen,'Pmax','given') eq 155)
+ 124                               +  50$(geninfo(gen,'Pmax','given') eq 197)
+ 125                               + 100$(geninfo(gen,'Pmax','given') eq 350)
+ 126                               + 150$(geninfo(gen,'Pmax','given') eq 400);
+ 127   
+ 128  * Output information to file
+ 129      put fx2;
+ 130      put_utility 'gdxout' /'C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\cas
+      e30_' season.tl:0 '_' daytype.tl:0
+ 131      execute_unload version, total_cost, baseMVA, ints, t, bus, gen, circui
+      t,
+ 132          line, transformer, monitored_lines, demandbid, demandbidmap, inter
+      face, interfacemap
+ 133          bus_t, bus_s, gen_t, gen_s, branch_t, branch_s, fuel_t, fuel_s, pr
+      ime_mover
+ 134          demandbid_t, demandbid_s, interface_t
+ 135          businfo, geninfo, branchinfo, demandbidinfo, interfaceinfo, fuelin
+      fo;
+ 136   
+ 137      put fx1;
+ 138      put_utility 'inc' /'rtslist.out'
+ 139  *    put '%inpath%%inname%_' season.tl:0 '_' daytype.tl:0 ;
+ 140      put 'case30_' season.tl:0 '_' daytype.tl:0 ;
+ 141  *    execute 'gams save_domain_info.gms gdx=set.tn:0.gdx --in="rts96temp.g
+      dx"';
+ 142  *$if errorlevel 1 abort 'Call failed!'
+ 143  *    execute 'rm rts96temp.gdx';
+ 144  );
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 03/06/21 16:44:41 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  C:\Users\Jairo\Desktop\Modelo\DataUtil
+                                          ities\rts_demands.gms
+     2       32 GDXIN          1      32  C:\Users\Jairo\Desktop\Modelo\Testcase
+                                          s_gdx\case30.gdx
+
+
+COMPILATION TIME     =        0.016 SECONDS      3 MB  24.9.2 r64480 WEX-WEI
+GAMS 24.9.2  r64480 Released Nov 14, 2017 WEX-WEI x86 64bit/MS Windows 03/06/21 16:44:41 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+**** Line 95: Putfile fx1 renamed: rtslist.out
+
+**** REPORT FILE SUMMARY
+
+fx1 C:\Users\Jairo\Desktop\Modelo\DataUtilities\rtslist.out
+fx2 C:\Users\Jairo\Desktop\Modelo\DataUtilities\fx2.put
+
+
+EXECUTION TIME       =        0.078 SECONDS      4 MB  24.9.2 r64480 WEX-WEI
+
+
+USER: Small MUD - 5 User License                     G170728:0528AO-GEN
+      Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\Jairo\Desktop\Modelo\DataUtilities\rts_demands.gms
+Output     C:\Users\Jairo\Desktop\Modelo\DataUtilities\rts_demands.lst

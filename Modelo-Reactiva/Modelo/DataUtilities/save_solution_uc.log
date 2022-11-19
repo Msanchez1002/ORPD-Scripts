@@ -1,0 +1,188 @@
+
+--- Job save_solution_uc.gms Start 03/31/21 20:44:42 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- save_solution_uc.gms(34) 2 Mb
+*** GDXIN failed C:\Users\Jairo\Desktop\Modelo\DataUtilities\%case%.gdx
+*** Msg: No such file or directory
+--- save_solution_uc.gms(34) 2 Mb 1 Error
+*** Error 510 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Unable to open gdx file for $GDXIN
+--- save_solution_uc.gms(35) 2 Mb 2 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- save_solution_uc.gms(36) 2 Mb 3 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- save_solution_uc.gms(37) 2 Mb 4 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- save_solution_uc.gms(38) 2 Mb 5 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- save_solution_uc.gms(39) 2 Mb 6 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- save_solution_uc.gms(40) 2 Mb 7 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- save_solution_uc.gms(41) 2 Mb 8 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- save_solution_uc.gms(42) 2 Mb 9 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- save_solution_uc.gms(58) 3 Mb
+*** GDXIN failed C:\Users\Jairo\Desktop\Modelo\DataUtilities\temp_solution.gdx
+*** Msg: No such file or directory
+--- save_solution_uc.gms(58) 3 Mb 10 Errors
+*** Error 510 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Unable to open gdx file for $GDXIN
+--- save_solution_uc.gms(59) 3 Mb 11 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- save_solution_uc.gms(60) 3 Mb 12 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- save_solution_uc.gms(74) 3 Mb 13 Errors
+*** Error 502 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    GDXIN  file not open - ignore rest of line
+--- save_solution_uc.gms(78) 3 Mb 18 Errors
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 141 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+--- save_solution_uc.gms(79) 3 Mb 23 Errors
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 141 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+--- save_solution_uc.gms(80) 3 Mb 29 Errors
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 141 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 141 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+--- save_solution_uc.gms(82) 3 Mb 34 Errors
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 141 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+--- save_solution_uc.gms(100) 3 Mb 43 Errors
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 141 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Symbol declared but no values have been assigned. Check for missing
+       data definition, assignment, data loading or implicit assignment
+       via a solve statement.
+       A wild shot: You may have spurious commas in the explanatory
+       text of a declaration. Check symbol reference list.
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+*** Error 352 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Set has not been initialized
+--- save_solution_uc.gms(103) 3 Mb 46 Errors
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+--- save_solution_uc.gms(104) 3 Mb 50 Errors
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+--- save_solution_uc.gms(105) 3 Mb 59 Errors
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+--- save_solution_uc.gms(106) 3 Mb 62 Errors
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+*** Error 573 in C:\Users\Jairo\Desktop\Modelo\models\save_solution_uc.gms
+    Cannot load/unload symbol with unknown dimension
+--- save_solution_uc.gms(114) 3 Mb 62 Errors
+*** Status: Compilation error(s)
+--- Job save_solution_uc.gms Stop 03/31/21 20:44:42 elapsed 0:00:00.133
+Exit code = 2

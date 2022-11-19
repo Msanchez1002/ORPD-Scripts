@@ -1,0 +1,125 @@
+
+--- Job polar_acopf.gms Start 02/27/21 13:14:57 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- polar_acopf.gms(67) 2 Mb
+--- .extract_data.gms(56) 3 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\rts96_summer_wday.gdx
+--- .extract_data.gms(282) 4 Mb
+--- polar_acopf.gms(208) 4 Mb
+--- .cost_objective.gms(77) 4 Mb
+--- polar_acopf.gms(274) 4 Mb
+--- .default.gms(14) 4 Mb
+--- ..calc_derived_vars.gms(38) 4 Mb
+--- .default.gms(40) 4 Mb
+--- polar_acopf.gms(347) 4 Mb
+--- Starting execution: elapsed 0:00:00.010
+--- polar_acopf.gms(649) 5 Mb
+--- Generating NLP model acopf
+--- polar_acopf.gms(651) 7 Mb
+---   843 rows  825 columns  3,592 non-zeroes
+---   9,199 nl-code  1,923 nl-non-zeroes
+--- polar_acopf.gms(651) 5 Mb
+--- Executing IPOPT: elapsed 0:00:00.035
+
+COIN-OR Ipopt    24.9.2 r64480 Released Nov 14, 2017 WEI x86 64bit/MS Windows 
+
+COIN-OR Interior Point Optimizer (Ipopt Library 3.12)
+written by A. Waechter.
+
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit http://projects.coin-or.org/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.12, running with linear solver mumps.
+
+Number of nonzeros in equality constraint Jacobian...:     3062
+Number of nonzeros in inequality constraint Jacobian.:      424
+Number of nonzeros in Lagrangian Hessian.............:      641
+
+Total number of variables............................:      820
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:      508
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:      626
+Total number of inequality constraints...............:      216
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:      216
+
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0 3.7831749e+005 4.54e+000 7.08e+001   0.0 0.00e+000    -  0.00e+000 0.00e+000   0
+   1 3.2352045e+005 4.43e+000 6.31e+001   1.1 1.61e+001    -  3.48e-001 2.45e-002h  1
+   2 2.7405753e+005 3.06e+000 3.93e+001   0.7 4.50e+000    -  5.66e-001 3.10e-001f  1
+   3 2.7731076e+005 2.33e+000 2.26e+001   0.3 2.15e+000    -  6.56e-001 2.37e-001h  1
+   4 3.0067440e+005 1.47e+000 1.38e+001  -5.5 1.80e+000    -  3.24e-001 3.71e-001h  1
+   5 3.4431822e+005 9.51e-001 1.38e+001  -5.7 2.51e+000    -  1.85e-001 3.52e-001h  1
+   6 4.1512747e+005 2.51e-001 7.20e+000  -0.1 2.09e+000    -  8.29e-001 7.36e-001h  1
+   7 4.3739451e+005 1.97e-002 1.65e+000  -0.5 5.27e-001    -  9.96e-001 1.00e+000h  1
+   8 4.3367809e+005 1.16e-002 1.85e-001  -1.1 2.38e-001    -  9.77e-001 1.00e+000f  1
+   9 4.3274307e+005 6.46e-003 5.56e+000  -1.7 2.24e-001    -  9.91e-001 5.39e-001f  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+  10 4.3181571e+005 3.11e-003 1.29e+000  -2.2 3.04e-001    -  1.00e+000 9.30e-001f  1
+  11 4.3171515e+005 7.26e-004 4.59e-001  -2.9 1.11e-001    -  9.98e-001 8.98e-001h  1
+  12 4.3168770e+005 1.81e-004 9.80e-003  -3.4 5.70e-002    -  1.00e+000 1.00e+000h  1
+  13 4.3168362e+005 3.79e-005 6.92e-002  -4.3 3.89e-002    -  9.94e-001 8.53e-001h  1
+  14 4.3168239e+005 8.51e-006 1.07e-001  -5.3 2.34e-002    -  1.00e+000 7.77e-001h  1
+  15 4.3168196e+005 3.69e-007 1.03e-003  -6.8 9.93e-003    -  1.00e+000 9.95e-001h  1
+  16 4.3168195e+005 4.15e-010 1.88e-008  -8.8 3.44e-004    -  1.00e+000 1.00e+000h  1
+  17 4.3168195e+005 6.42e-014 3.68e-012 -11.0 1.92e-005    -  1.00e+000 1.00e+000h  1
+
+Number of Iterations....: 17
+
+                                   (scaled)                 (unscaled)
+Objective...............:  2.6383504449881952e+003   4.3168195338315901e+005
+Dual infeasibility......:  3.6830849767066692e-012   6.0261945877626405e-010
+Constraint violation....:  5.7778781759054704e-014   6.4198646398949677e-014
+Complementarity.........:  1.0542371403933196e-011   1.7249230440882543e-009
+Overall NLP error.......:  1.0542371403933196e-011   1.7249230440882543e-009
+
+
+Number of objective function evaluations             = 18
+Number of objective gradient evaluations             = 18
+Number of equality constraint evaluations            = 18
+Number of inequality constraint evaluations          = 18
+Number of equality constraint Jacobian evaluations   = 18
+Number of inequality constraint Jacobian evaluations = 18
+Number of Lagrangian Hessian evaluations             = 17
+Total CPU secs in IPOPT (w/o function evaluations)   =      0.139
+Total CPU secs in NLP function evaluations           =      0.019
+
+EXIT: Optimal Solution Found.
+--- Restarting execution
+--- polar_acopf.gms(651) 3 Mb
+--- Reading solution for model acopf
+--- Executing after solve: elapsed 0:00:00.311
+--- polar_acopf.gms(673) 4 Mb
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\ALL_solution.gdx
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\temp_solution.gdx
+--- Job save_solution.gms Start 02/27/21 13:14:57 24.9.2 r64480 WEX-WEI x86 64bit/MS Windows
+GAMS 24.9.2   Copyright (C) 1987-2017 GAMS Development. All rights reserved
+Licensee: Small MUD - 5 User License                     G170728:0528AO-GEN
+          Universidad de Antioquia, Departmento de Ingeneria ElectriDC11351
+          License for teaching and research at degree granting institutions
+          License Admin: Diego Mejia, diego.mejia@udea.edu.co              
+--- Starting compilation
+--- save_solution.gms(39) 2 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\Testcases_gdx\rts96_summer_wday.gdx
+--- save_solution.gms(56) 5 Mb
+--- GDXin=C:\Users\Jairo\Desktop\Modelo\models\temp_solution.gdx
+--- save_solution.gms(109) 5 Mb
+--- Starting execution: elapsed 0:00:00.039
+--- save_solution.gms(93) 6 Mb
+--- GDX File C:\Users\Jairo\Desktop\Modelo\models\rts96_summer_wday_AC_base_solution.gdxtemp
+--- save_solution.gms(100) 6 Mb
+--- save_solution.gms(102) 6 Mb
+*** Status: Normal completion
+--- Job save_solution.gms Stop 02/27/21 13:14:57 elapsed 0:00:00.170
+*** Status: Normal completion
+--- Job polar_acopf.gms Stop 02/27/21 13:14:58 elapsed 0:00:00.569

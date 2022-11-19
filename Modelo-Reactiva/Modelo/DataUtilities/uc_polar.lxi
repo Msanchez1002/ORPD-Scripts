@@ -1,0 +1,41 @@
+B 2 C o m p i l a t i o n
+B 801 Include File Summary
+B 819 E x e c u t i o n
+I 822 rampup
+I 827 rampdown
+I 831 minuptime
+I 844 mindowntime
+B 859 Equation Listing    SOLVE uc_ac Using MINLP From line 713
+D 860 c_LinePij
+D 890 c_LinePji
+D 919 c_LineQij
+D 948 c_LineQji
+D 977 c_BalanceP
+D 994 c_BalanceQ
+D 1011 c_GenStatusMin
+D 1022 c_GenStatusMax
+D 1033 c_GenStatusQMin
+D 1044 c_GenStatusQMax
+D 1055 c_StartupShutdown
+D 1072 c_MinUptime
+D 1083 c_MinDowntime
+D 1094 c_RampUp
+D 1105 c_RampDown
+D 1116 c_InterfaceP
+D 1122 c_InterfaceLimit
+D 1127 c_anglediffIJ
+D 1144 c_anglediffJI
+D 1161 c_pw_cost
+D 1166 c_obj
+B 1173 Column Listing      SOLVE uc_ac Using MINLP From line 713
+E 1174 V_P
+E 1205 V_Q
+E 1227 V_Theta
+E 1276 V_LineP
+E 1295 V_LineQ
+E 1314 V_genstatus
+E 1347 V_startup
+E 1368 V_shutdown
+E 1389 V_V
+E 1426 V_objcost
+B 1435 Model Statistics    SOLVE uc_ac Using MINLP From line 713
